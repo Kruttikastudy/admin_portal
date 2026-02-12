@@ -1,0 +1,22 @@
+.layout-container {
+    display: flex;
+    min-height: 100vh;
+}
+
+.main-content {
+    flex: 1;
+    margin-left: 240px;
+    background: var(--background-light-gray);
+    min-height: 100vh;
+    transition: margin-left 0.3s ease;
+    min-width: 0;
+    /* Prevent flex blowout */
+}
+
+@media (max-width: 991px) {
+    .main-content {
+        margin-left: 0;
+        padding-top: 70px;
+        /* Offset for new 70px footer */
+    }
+}

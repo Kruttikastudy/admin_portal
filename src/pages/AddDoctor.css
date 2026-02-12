@@ -1,0 +1,873 @@
+.image-add-doctor-page {
+    background-color: #FDFDFD;
+    min-height: 100vh;
+}
+
+.image-add-doctor-container {
+    padding: 20px;
+}
+
+.image-page-main-title {
+    font-size: 24px;
+    font-weight: 500;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.image-form-tabs-bar {
+    display: flex;
+    border-bottom: 2px solid #DDD;
+    margin-bottom: 20px;
+}
+
+.image-tab-item {
+    padding: 10px 20px;
+    font-size: 14px;
+    color: #555;
+    cursor: pointer;
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.image-tab-item.active {
+    color: #0288D1;
+    font-weight: 500;
+}
+
+.image-tab-item.active::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: #0288D1;
+}
+
+.image-form-content-area {
+    background-color: white;
+    min-height: 500px;
+}
+
+.image-form-section-header {
+    background-color: #1E88E5;
+    color: white;
+    padding: 8px 30px;
+    border-radius: 25px;
+    font-size: 16px;
+    width: fit-content;
+    margin: 0 auto 30px auto;
+    text-align: center;
+}
+
+.image-form-section-header.margin-top {
+    margin-top: 30px;
+}
+
+.image-form-layout-split {
+    display: flex;
+    gap: 30px;
+}
+
+.image-form-fields-left {
+    flex: 3;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.image-form-photo-right {
+    flex: 1;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.image-photo-frame-box {
+    width: 160px;
+    height: 120px;
+    border: 3px solid #014E78;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.image-photo-icon-placeholder {
+    width: 80px;
+    height: 80px;
+    color: #333;
+}
+
+.image-field-row {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.image-field-row label {
+    width: 130px;
+    font-size: 14px;
+    color: #333;
+}
+
+.image-name-triple-input {
+    flex: 1;
+    display: flex;
+    gap: 10px;
+}
+
+.image-name-triple-input input {
+    flex: 1;
+    border: 1.5px solid #000;
+    padding: 8px;
+    font-size: 14px;
+}
+
+.image-field-row-cols {
+    display: flex;
+    gap: 30px;
+}
+
+.image-field {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    flex: 1;
+}
+
+.image-field label {
+    width: 130px;
+    font-size: 14px;
+    color: #333;
+}
+
+.image-field input {
+    flex: 1;
+    border: 1.5px solid #000;
+    padding: 8px;
+    font-size: 14px;
+}
+
+.field-border {
+    flex: 1;
+    border: 1.5px solid #000;
+    padding: 10px;
+    font-size: 15px;
+}
+
+.image-select-replacement {
+    flex: 1;
+    border: 1.5px solid #000;
+    padding: 10px;
+    font-size: 15px;
+    background-color: #FDFDFD;
+    position: relative;
+    cursor: pointer;
+}
+
+.image-select-replacement-v {
+    flex: 1;
+    border: 1.5px solid #01579B;
+    padding: 10px;
+    font-size: 15px;
+    background-color: white;
+    color: #01579B;
+    cursor: pointer;
+}
+
+.image-select-replacement.small-width {
+    max-width: 200px;
+}
+
+.image-full-width-fields {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.image-field.flex-row {
+    display: flex;
+    width: 100%;
+}
+
+.flex-1 {
+    flex: 1;
+}
+
+.flex-1-styled {
+    flex: 1;
+    border: 1.5px solid #000;
+    padding: 10px;
+}
+
+.full-width {
+    width: 100%;
+}
+
+.margin-left-label {
+    margin-left: 145px;
+    width: calc(100% - 145px);
+    border: 1.5px solid #000;
+    padding: 8px;
+}
+
+.image-field.no-label {
+    display: block;
+}
+
+.image-field-row-quad {
+    display: flex;
+    gap: 20px;
+    margin-left: 145px;
+}
+
+.image-field-mini {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex: 1;
+}
+
+.image-field-mini label {
+    white-space: nowrap;
+}
+
+.image-select-replacement-mini {
+    border: 1.5px solid #000;
+    padding: 8px 15px;
+    flex: 1;
+    background-color: white;
+}
+
+.image-select-replacement-mini.gray-bg {
+    background-color: #FDFDFD;
+}
+
+.image-field-row-duo {
+    display: flex;
+    gap: 20px;
+    margin-left: 145px;
+    width: 66%;
+    margin-top: 10px;
+}
+
+.image-form-footer-nav {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 50px;
+}
+
+.image-form-footer-nav-dual {
+    display: flex;
+    justify-content: flex-end;
+    gap: 30px;
+    margin-top: 50px;
+}
+
+.image-next-btn-blue {
+    background-color: #014E78;
+    color: white;
+    border: none;
+    padding: 10px 40px;
+    border-radius: 20px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.image-next-btn-blue-styled,
+.image-back-btn-styled,
+.image-save-btn-styled {
+    background-color: #014E78;
+    color: white;
+    border: none;
+    padding: 10px 45px;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+/* Contact Tab specific */
+.image-contact-fields-centered {
+    max-width: 800px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.image-field.spaced {
+    gap: 40px;
+}
+
+.image-field.spaced label {
+    width: 250px;
+}
+
+.image-field.spaced-extra {
+    display: flex;
+    gap: 30px;
+}
+
+.image-field.spaced-extra label {
+    width: 250px;
+}
+
+.medium-width {
+    width: 400px;
+    border: 1.5px solid #000;
+    padding: 10px;
+}
+
+.image-input-with-suffix {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.image-input-with-suffix span {
+    color: #777;
+}
+
+.image-contact-method-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+    gap: 15px;
+}
+
+.image-method-title {
+    color: #0288D1;
+    font-size: 18px;
+    text-decoration: underline;
+}
+
+.image-radio-group-row {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.image-radio-item {
+    color: #0288D1;
+    font-size: 18px;
+}
+
+.image-radio-circle-input {
+    width: 20px;
+    height: 20px;
+    border: 2px solid #0288D1;
+    border-radius: 50%;
+}
+
+.image-radio-circle-input.filled {
+    background-color: #014E78;
+}
+
+/* Professional Tab specific */
+.image-professional-fields {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.small-width-input {
+    max-width: 150px;
+    border: 1.5px solid #000;
+    padding: 10px;
+}
+
+.timing-row-match {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+}
+
+.timing-controls {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.mini-btn-styled {
+    border: 1.5px solid #000;
+    padding: 5px 20px;
+    background-color: white;
+    cursor: pointer;
+}
+
+/* Insurance Tab specific */
+.insurance-date-row {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.spacer-label {
+    width: 150px;
+}
+
+.short-input-match {
+    width: 150px;
+    border: 1.5px solid #000;
+    padding: 10px;
+}
+
+.date-pill {
+    border: 1.5px solid #01579B;
+    padding: 5px 15px;
+    background-color: white;
+    color: #999;
+}
+
+.image-insurance-contact {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.spaced-extra-center {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+}
+
+.contact-input-styled {
+    width: 300px;
+    border: 1.5px solid #000;
+    padding: 10px;
+}
+
+.upload-bar-styled {
+    width: 400px;
+    border: 1.5px solid #000;
+    height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-left: 15px;
+}
+
+.upload-blue-box {
+    width: 80px;
+    height: 100%;
+    background-color: #0288D1;
+}
+
+/* Allergies Tab styles */
+.image-allergies-details-header {
+    color: #0288D1;
+    font-size: 20px;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.image-allergies-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.image-allergies-table th {
+    background-color: #0288D1;
+    color: white;
+    padding: 12px;
+    text-align: left;
+    font-weight: normal;
+}
+
+.image-allergies-table td {
+    padding: 15px 10px;
+}
+
+.image-allergies-select {
+    width: 100%;
+    border: 1.5px solid #000;
+    padding: 8px;
+    background-color: white;
+}
+
+.image-allergies-input {
+    width: 100%;
+    border: 1.5px solid #000;
+    padding: 8px;
+}
+
+.image-action-add-btn {
+    width: 30px;
+    height: 30px;
+    background-color: #0288D1;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.image-action-remove-btn {
+    color: #F44336;
+    font-size: 20px;
+    cursor: pointer;
+    margin-right: 10px;
+}
+
+/* Social History Tab styles */
+.image-social-history-content-row {
+    display: flex;
+    gap: 40px;
+    align-items: flex-start;
+}
+
+.image-social-history-list {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    max-width: 500px;
+    /* Limit width to keep it on the left */
+}
+
+.image-social-history-content-row.is-empty {
+    justify-content: flex-start;
+}
+
+.image-social-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    border-radius: 8px;
+    transition: background-color 0.3s;
+}
+
+.image-social-item.active-item {
+    background-color: #E1F5FE;
+}
+
+.image-social-label {
+    font-size: 16px;
+    color: #333;
+}
+
+.image-toggle-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.image-toggle-switch {
+    width: 45px;
+    height: 22px;
+    background-color: #0288D1;
+    border-radius: 15px;
+    position: relative;
+    cursor: pointer;
+}
+
+.image-toggle-circle {
+    width: 18px;
+    height: 18px;
+    background-color: white;
+    border-radius: 50%;
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    transition: left 0.3s;
+}
+
+.image-toggle-switch.on .image-toggle-circle {
+    left: 25px;
+}
+
+.image-toggle-label {
+    font-size: 15px;
+    color: #333;
+    width: 30px;
+}
+
+/* Detail Card */
+.image-social-detail-card {
+    flex: 1;
+    background-color: white;
+    border: 1px solid #E0E0E0;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    padding: 0;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.image-card-header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 15px;
+    border-bottom: 1.5px solid #0288D1;
+    position: relative;
+}
+
+.image-card-header h3 {
+    margin: 0;
+    font-size: 18px;
+    color: #333;
+    font-weight: 500;
+}
+
+.image-card-close-x {
+    position: absolute;
+    right: 20px;
+    font-size: 18px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.image-card-body {
+    padding: 20px 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.image-card-field-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+}
+
+.image-card-field-row label {
+    font-size: 15px;
+    color: #333;
+    flex: 1;
+}
+
+.image-card-body input,
+.image-card-body textarea {
+    border: 1.5px solid #0288D1;
+    padding: 8px;
+    font-size: 14px;
+}
+
+.image-card-body textarea {
+    height: 60px;
+    resize: none;
+}
+
+.image-card-select-v {
+    border: 1.5px solid #0288D1;
+    padding: 8px 15px;
+    font-size: 14px;
+    color: #777;
+    background-color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+}
+
+.image-card-footer {
+    padding: 20px;
+    border-top: 1.5px solid #0288D1;
+    display: flex;
+    justify-content: center;
+}
+
+.image-save-pill-btn {
+    background-color: #0288D1;
+    color: white;
+    border: none;
+    padding: 10px 40px;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.image-duration-box {
+    display: flex;
+    gap: 5px;
+}
+
+.image-duration-box input {
+    width: 60px;
+}
+
+.image-duration-box .image-card-select-v {
+    width: 80px;
+    padding: 8px 5px;
+}
+
+.image-card-add-btn {
+    align-self: flex-end;
+    background: none;
+    border: 1.5px solid #0288D1;
+    padding: 5px 25px;
+    cursor: pointer;
+}
+
+/* Family History Tab styles */
+.image-family-history-container {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.image-history-card {
+    border: 1px solid #CCC;
+    border-radius: 40px;
+    overflow: hidden;
+    padding-bottom: 25px;
+}
+
+.image-history-card-header {
+    background-color: #014E78;
+    color: white;
+    padding: 10px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 18px;
+    border-radius: 40px 40px 0 0;
+}
+
+.image-history-card-body {
+    padding: 25px 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.deceased-checkbox-box {
+    width: 40px;
+    height: 25px;
+    border: 1.5px solid #000;
+    margin-left: 10px;
+}
+
+.image-full-width-input {
+    flex: 1;
+    border: 1.5px solid #000;
+    padding: 10px;
+}
+
+/* Consent Form styles */
+.image-consent-form-content {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.image-consent-form-content h2 {
+    font-size: 22px;
+    font-weight: 500;
+    margin-bottom: 30px;
+}
+
+.image-consent-points {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.image-consent-point {
+    font-size: 18px;
+    line-height: 1.5;
+    color: #333;
+}
+
+.image-consent-point strong {
+    font-weight: 600;
+}
+
+@media (max-width: 1024px) {
+    .image-social-history-content-row {
+        flex-direction: column;
+    }
+}
+
+@media (max-width: 991px) {
+    .image-add-doctor-container {
+        padding: 15px;
+    }
+
+    .image-form-tabs-bar {
+        overflow-x: auto;
+        white-space: nowrap;
+        gap: 0;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .image-tab-item {
+        padding: 10px 15px;
+    }
+
+    .image-form-layout-split {
+        flex-direction: column-reverse;
+        /* Put photo at top */
+        gap: 30px;
+    }
+
+    .image-form-photo-right {
+        justify-content: center;
+    }
+
+    .image-form-fields-left {
+        width: 100%;
+    }
+
+    .image-field-row,
+    .image-field-row-cols,
+    .image-field,
+    .image-field-row-quad,
+    .image-field-row-duo {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
+        margin-left: 0 !important;
+        width: 100% !important;
+    }
+
+    .image-field-row label,
+    .image-field label {
+        width: 100% !important;
+        margin-bottom: 5px;
+    }
+
+    .image-name-triple-input {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .margin-left-label {
+        margin-left: 0 !important;
+        width: 100% !important;
+    }
+
+    .image-professional-fields,
+    .image-contact-fields-centered {
+        max-width: none;
+    }
+
+    .image-form-footer-nav,
+    .image-form-footer-nav-dual {
+        flex-direction: column;
+        gap: 15px;
+        margin-top: 30px;
+    }
+
+    .image-next-btn-blue,
+    .image-next-btn-blue-styled,
+    .image-back-btn-styled,
+    .image-save-btn-styled {
+        width: 100%;
+        padding: 12px;
+    }
+
+    .timing-row-match {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .image-social-history-list {
+        max-width: none !important;
+    }
+}
