@@ -1,13 +1,25 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Doctors.css'; // Reusing common styles
+import './DetailsModal.css';
 
 function Patients() {
     const navigate = useNavigate();
+    const [patients, setPatients] = useState([]);
+    const [selectedPatient, setSelectedPatient] = useState(null);
 
-    const patients = [
-        { id: 1, name: 'Patient Name', role: 'Nurse', contact: '1234567890', email: 'abc@gmail.com', status: 'Active' },
-    ];
+    useEffect(() => {
+        const fetchPatients = async () => {
+            try {
+                const res = await fetch('/api/patients');
+                const data = await res.json();
+                setPatients(data);
+            } catch (err) {
+                console.error('Failed to fetch patients', err);
+            }
+        };
+        fetchPatients();
+    }, []);
 
     return (
         <div className="image-doctors-page">
@@ -62,24 +74,44 @@ function Patients() {
                             </tr>
                         </thead>
                         <tbody>
-                            {patients.map((p) => (
-                                <tr key={p.id}>
-                                    <td>
-                                        <div className="grey-circle-placeholder-small"></div>
-                                    </td>
-                                    <td>{p.name}</td>
-                                    <td>{p.role}</td>
-                                    <td>{p.contact}</td>
-                                    <td>{p.email}</td>
-                                    <td>{p.status}</td>
-                                    <td>
-                                        <div className="image-row-actions">
-                                            <span>View</span>
-                                            <span>Edit</span>
-                                        </div>
-                                    </td>
-                                </tr>
-                            ))}
+                            {patients.map((p) => {
+                                const id = p._id || p.id;
+                                const name = `${p.name?.first || ''} ${p.name?.last || ''}`.trim();
+                                const role = p.role || '';
+                                const contact = p.contact_info?.mobile?.number || p.contact_info?.phone || '';
+                                const email = p.contact_info?.email || '';
+                                const status = p.status || 'Active';
+                                return (
+                                    <tr key={id}>
+                                        <td>
+                                            <div className="grey-circle-placeholder-small"></div>
+                                        </td>
+                                        <td>{name}</td>
+                                        <td>{role}</td>
+                                        <td>{contact}</td>
+                                        <td>{email}</td>
+                                        <td>{status}</td>
+                                        <td>
+                                            <div className="image-row-actions">
+                                                <button
+                                                    className="image-action-btn view-btn"
+                                                    style={{ padding: '6px 10px', borderRadius: 8, background: '#4FB0D2', color: 'white', border: 'none', cursor: 'pointer', marginRight: 6 }}
+                                                    onClick={() => navigate('/patients/view', { state: { patient: p } })}
+                                                >
+                                                    View
+                                                </button>
+                                                <button
+                                                    className="image-action-btn edit-btn"
+                                                    style={{ padding: '6px 10px', borderRadius: 8, background: '#1B7A9F', color: 'white', border: 'none', cursor: 'pointer' }}
+                                                    onClick={() => navigate('/patients/add', { state: { patient: p } })}
+                                                >
+                                                    Edit
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                );
+                            })}
                             {[...Array(8)].map((_, i) => (
                                 <tr key={`empty-${i}`}>
                                     <td></td>
@@ -95,6 +127,65 @@ function Patients() {
                     </table>
                 </div>
             </div>
+            {selectedPatient && (
+                <div className="details-modal-overlay" onClick={() => setSelectedPatient(null)}>
+                    <div className="details-modal-card" onClick={(e) => e.stopPropagation()}>
+                        <h3>Patient Details</h3>
+
+                        <div className="details-section">
+                            <h4>Personal Details</h4>
+                            <div className="details-grid">
+                                <div className="details-row"><div className="details-label">First name</div><div className="details-value">{selectedPatient.name?.first || '-'}</div></div>
+                                <div className="details-row"><div className="details-label">Middle name</div><div className="details-value">{selectedPatient.name?.middle || '-'}</div></div>
+                                <div className="details-row"><div className="details-label">Last name</div><div className="details-value">{selectedPatient.name?.last || '-'}</div></div>
+                                <div className="details-row"><div className="details-label">Date of birth</div><div className="details-value">{selectedPatient.date_of_birth || selectedPatient.dateOfBirth || '-'}</div></div>
+                                <div className="details-row"><div className="details-label">Gender</div><div className="details-value">{selectedPatient.gender || '-'}</div></div>
+                                <div className="details-row"><div className="details-label">Blood group</div><div className="details-value">{selectedPatient.blood_group || '-'}</div></div>
+                            </div>
+                        </div>
+
+                        <div className="details-section">
+                            <h4>Contact Details</h4>
+                            <div className="details-grid">
+                                <div className="details-row"><div className="details-label">Primary phone</div><div className="details-value">{selectedPatient.contact_info?.mobile?.number || selectedPatient.contact_info?.phone || '-'}</div></div>
+                                <div className="details-row"><div className="details-label">Alternate phone</div><div className="details-value">{selectedPatient.contact_info?.alternate_phone || '-'}</div></div>
+                                <div className="details-row"><div className="details-label">Email</div><div className="details-value">{selectedPatient.contact_info?.email || '-'}</div></div>
+                                <div className="details-row details-full"><div className="details-label">Emergency Contact</div><div className="details-value">{selectedPatient.emergency_contact ? JSON.stringify(selectedPatient.emergency_contact) : '-'}</div></div>
+                            </div>
+                        </div>
+
+                        <div className="details-section">
+                            <h4>Address</h4>
+                            <div className="details-grid">
+                                <div className="details-row details-full"><div className="details-label">Address</div><div className="details-value"><pre style={{whiteSpace:'pre-wrap',fontSize:12}}>{JSON.stringify(selectedPatient.address || {}, null, 2)}</pre></div></div>
+                            </div>
+                        </div>
+
+                        <div className="details-section">
+                            <h4>Insurance</h4>
+                            <div className="details-grid">
+                                <div className="details-row"><div className="details-label">Primary</div><div className="details-value">{selectedPatient.insurance?.primary ? JSON.stringify(selectedPatient.insurance.primary) : '-'}</div></div>
+                                <div className="details-row"><div className="details-label">Secondary</div><div className="details-value">{selectedPatient.insurance?.secondary ? JSON.stringify(selectedPatient.insurance.secondary) : '-'}</div></div>
+                                <div className="details-row"><div className="details-label">Insurance contact</div><div className="details-value">{selectedPatient.insurance_contact_number || '-'}</div></div>
+                            </div>
+                        </div>
+
+                        <div className="details-section">
+                            <h4>Clinical / Other</h4>
+                            <div className="details-grid">
+                                <div className="details-row details-full"><div className="details-label">Known allergies</div><div className="details-value">{selectedPatient.knownAllergies || selectedPatient.allergies || '-'}</div></div>
+                                <div className="details-row details-full"><div className="details-label">Family history</div><div className="details-value">{selectedPatient.familyDiseases || '-'}</div></div>
+                                <div className="details-row details-full"><div className="details-label">Consent</div><div className="details-value">{selectedPatient.consent ? 'Agreed' : (selectedPatient.consentAgree ? 'Agreed' : 'Not provided')}</div></div>
+                            </div>
+                        </div>
+
+                        <div className="details-actions">
+                            <button className="details-btn primary" onClick={() => { navigate('/patients/add', { state: { patient: selectedPatient } }); }}>Edit</button>
+                            <button className="details-btn ghost" onClick={() => setSelectedPatient(null)}>Close</button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }

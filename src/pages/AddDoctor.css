@@ -83,8 +83,8 @@
 }
 
 .image-photo-frame-box {
-    width: 160px;
-    height: 120px;
+    width: 140px;
+    height: 180px;
     border: 3px solid #014E78;
     display: flex;
     align-items: center;
@@ -336,31 +336,56 @@
 }
 
 .image-method-title {
-    color: #0288D1;
+    color: #333;
     font-size: 18px;
-    text-decoration: underline;
+    text-decoration: none;
 }
 
 .image-radio-group-row {
     display: flex;
     align-items: center;
-    gap: 20px;
+    gap: 30px;
 }
 
-.image-radio-item {
-    color: #0288D1;
-    font-size: 18px;
+.image-radio-label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    position: relative;
 }
 
-.image-radio-circle-input {
+.image-radio-input {
+    appearance: none;
+    -webkit-appearance: none;
     width: 20px;
     height: 20px;
     border: 2px solid #0288D1;
     border-radius: 50%;
+    margin: 0;
+    cursor: pointer;
+    display: grid;
+    place-content: center;
 }
 
-.image-radio-circle-input.filled {
+.image-radio-input::before {
+    content: "";
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    transform: scale(0);
+    transition: 120ms transform ease-in-out;
     background-color: #014E78;
+}
+
+.image-radio-input:checked::before {
+    transform: scale(1);
+}
+
+.image-radio-text {
+    font-size: 18px;
+    color: #0288D1;
+    font-weight: 500;
 }
 
 /* Professional Tab specific */

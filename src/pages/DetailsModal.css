@@ -1,0 +1,135 @@
+/* Details modal – matches site (Doctors/Staff/Patients) */
+.details-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1200;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.details-modal-card {
+  background: #FDFDFD;
+  width: 900px;
+  max-width: 100%;
+  max-height: 90vh;
+  overflow: auto;
+  border-radius: 10px;
+  padding: 24px;
+  box-shadow: 0 8px 24px rgba(1, 78, 120, 0.15);
+  border: 1px solid #7FBADD;
+}
+
+.details-modal-title {
+  margin: 0 0 20px 0;
+  font-size: 24px;
+  font-weight: 400;
+  color: #333;
+  padding-bottom: 12px;
+  border-bottom: 2px solid #1E88E5;
+}
+
+.details-section {
+  margin-bottom: 18px;
+  padding: 14px 16px;
+  border-radius: 8px;
+  background: #fff;
+  border: 1px solid #7FBADD;
+}
+
+.details-section-heading {
+  margin: 0 0 12px 0;
+  font-size: 16px;
+  font-weight: 500;
+  color: #014E78;
+  background: #f0f8fc;
+  padding: 8px 12px;
+  border-radius: 6px;
+  border-left: 4px solid #3B96C2;
+}
+
+.details-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px 24px;
+}
+
+.details-row {
+  display: flex;
+  flex-direction: column;
+}
+
+.details-label {
+  font-weight: 600;
+  font-size: 12px;
+  color: #555;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.details-value {
+  margin-top: 4px;
+  font-size: 14px;
+  color: #222;
+}
+
+.details-full {
+  grid-column: 1 / -1;
+}
+
+.details-card-image {
+  max-width: 220px;
+  max-height: 140px;
+  border: 1px solid #7FBADD;
+  border-radius: 6px;
+  margin-top: 4px;
+}
+
+.details-photo-image {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border: 1px solid #7FBADD;
+  border-radius: 8px;
+  margin-top: 4px;
+}
+
+.details-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid #7FBADD;
+}
+
+.details-btn {
+  padding: 10px 20px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.details-btn.primary {
+  background: #014E78;
+  color: #fff;
+}
+
+.details-btn.primary:hover {
+  background: #1B7A9F;
+}
+
+.details-btn.ghost {
+  background: #fff;
+  border: 1px solid #7FBADD;
+  color: #333;
+}
+
+.details-btn.ghost:hover {
+  background: #f0f8fc;
+}

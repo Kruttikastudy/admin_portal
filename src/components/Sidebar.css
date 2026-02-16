@@ -62,12 +62,10 @@
     transition: all 0.3s ease;
 }
 
-.nav-icon-square {
-    width: 20px;
-    height: 20px;
-    border: 1.5px solid white;
-    background-color: white;
+.nav-icon-lucide {
+    color: white;
     opacity: 0.9;
+    transition: all 0.3s ease;
 }
 
 .nav-text-label {
@@ -81,9 +79,9 @@
     font-weight: 600;
 }
 
-.image-nav-item.active .nav-icon-square {
-    background-color: #CDDC39;
-    border-color: #CDDC39;
+.image-nav-item.active .nav-icon-lucide {
+    color: #FFEB3B;
+    opacity: 1;
 }
 
 .image-nav-item:hover {
@@ -110,6 +108,11 @@
 
 .image-logout-btn-link:hover {
     color: #FFEB3B;
+}
+
+.image-logout-btn-link {
+    display: flex;
+    align-items: center;
 }
 
 /* Mobile Header */
@@ -254,7 +257,7 @@
         font-weight: 600;
     }
 
-    .nav-icon-square {
+    .nav-icon-lucide {
         width: 24px;
         height: 24px;
         flex-shrink: 0;
