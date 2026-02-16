@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { getApiUrl } from '../api';
 import './Doctors.css'; // Reusing common styles
 import './DetailsModal.css';
 
@@ -11,7 +12,7 @@ function Patients() {
     useEffect(() => {
         const fetchPatients = async () => {
             try {
-                const res = await fetch('/api/patients');
+                const res = await fetch(getApiUrl('/api/patients'));
                 const data = await res.json();
                 setPatients(data);
             } catch (err) {
@@ -157,7 +158,7 @@ function Patients() {
                         <div className="details-section">
                             <h4>Address</h4>
                             <div className="details-grid">
-                                <div className="details-row details-full"><div className="details-label">Address</div><div className="details-value"><pre style={{whiteSpace:'pre-wrap',fontSize:12}}>{JSON.stringify(selectedPatient.address || {}, null, 2)}</pre></div></div>
+                                <div className="details-row details-full"><div className="details-label">Address</div><div className="details-value"><pre style={{ whiteSpace: 'pre-wrap', fontSize: 12 }}>{JSON.stringify(selectedPatient.address || {}, null, 2)}</pre></div></div>
                             </div>
                         </div>
 

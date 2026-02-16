@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { getApiUrl } from '../api';
 import './AddDoctor.css';
 
 // Normalize date to YYYY-MM-DD for <input type="date"> (handles Date, ISO string, or YYYY-MM-DD)
@@ -262,13 +263,13 @@ function AddDoctor() {
             };
 
             const isEdit = !!(location && location.state && location.state.doctor);
-            const url = isEdit ? `/api/doctors/${location.state.doctor._id || location.state.doctor.id}` : '/api/doctors';
+            const url = getApiUrl(isEdit ? `/api/doctors/${location.state.doctor._id || location.state.doctor.id}` : '/api/doctors');
             const method = isEdit ? 'PUT' : 'POST';
-            
+
             console.log('Saving doctor to:', url);
             console.log('Method:', method);
             console.log('Data:', doctorData);
-            
+
             const response = await fetch(url, {
                 method,
                 headers: {
@@ -276,10 +277,10 @@ function AddDoctor() {
                 },
                 body: JSON.stringify(doctorData),
             });
-            
+
             console.log('Response status:', response.status);
             console.log('Response ok:', response.ok);
-            
+
             if (!response.ok) {
                 const text = await response.text();
                 let message = `Failed to save doctor (Status: ${response.status})`;
@@ -292,7 +293,7 @@ function AddDoctor() {
                 console.error('Backend error:', text);
                 throw new Error(message);
             }
-            
+
             alert(isEdit ? 'Doctor updated successfully!' : 'Doctor saved successfully!');
             navigate('/doctors');
         } catch (err) {

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { getApiUrl } from '../api';
 import './AddDoctor.css'; // Reusing styles
 
 function AddStaff() {
@@ -282,7 +283,7 @@ function AddStaff() {
             };
 
             const isEdit = !!(location && location.state && location.state.staff);
-            const url = isEdit ? `/api/staff/${location.state.staff._id || location.state.staff.id}` : '/api/staff';
+            const url = getApiUrl(isEdit ? `/api/staff/${location.state.staff._id || location.state.staff.id}` : '/api/staff');
             const method = isEdit ? 'PUT' : 'POST';
             const response = await fetch(url, {
                 method,
@@ -291,7 +292,7 @@ function AddStaff() {
                 },
                 body: JSON.stringify(staffData),
             });
-            
+
             if (!response.ok) {
                 const text = await response.text();
                 let message = `Failed to save staff (Status: ${response.status})`;
@@ -303,7 +304,7 @@ function AddStaff() {
                 }
                 throw new Error(message);
             }
-            
+
             alert(isEdit ? 'Staff updated successfully!' : 'Staff saved successfully!');
             navigate('/staff');
         } catch (err) {

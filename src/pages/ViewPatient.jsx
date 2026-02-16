@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { getApiUrl } from '../api';
 import './DetailsModal.css';
 
 function ViewPatient() {
@@ -13,7 +14,7 @@ function ViewPatient() {
             const pId = location?.state?.patient?._id || location?.state?.patient?.id;
             if (pId) {
                 try {
-                    const res = await fetch(`/api/patients/${pId}`);
+                    const res = await fetch(getApiUrl(`/api/patients/${pId}`));
                     if (res.ok) {
                         const data = await res.json();
                         setPatient(data.data || data);

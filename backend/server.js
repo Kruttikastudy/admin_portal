@@ -12,7 +12,10 @@ dotenv.config();
 const app = express();
 
 // Middleware (increase limit for requests with base64 images - 50MB)
-app.use(cors());
+app.use(cors({
+    origin: [process.env.FRONTEND_URL, 'http://localhost:5173', 'http://localhost:5174'].filter(Boolean),
+    credentials: true
+}));
 app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ limit: '50mb', extended: true }));
 

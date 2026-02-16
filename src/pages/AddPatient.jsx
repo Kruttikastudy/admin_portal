@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { getApiUrl } from '../api';
 import './AddDoctor.css'; // Reusing styles
 
 function SocialHistoryTab({ onBack, onNext, socialFormData, setSocialFormData, toggles, setToggles }) {
@@ -1228,7 +1229,7 @@ function AddPatient() {
             }
 
             const isEdit = !!(location && location.state && location.state.patient);
-            const url = isEdit ? `/api/patients/${location.state.patient._id || location.state.patient.id}` : '/api/patients';
+            const url = getApiUrl(isEdit ? `/api/patients/${location.state.patient._id || location.state.patient.id}` : '/api/patients');
             const method = isEdit ? 'PUT' : 'POST';
             const response = await fetch(url, {
                 method,

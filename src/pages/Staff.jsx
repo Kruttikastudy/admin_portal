@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
+import { getApiUrl } from '../api';
 import './Doctors.css'; // Reusing common styles from Doctors.css
 import './DetailsModal.css';
 
@@ -11,7 +12,7 @@ function Staff() {
     useEffect(() => {
         const fetchStaff = async () => {
             try {
-                const res = await fetch('/api/staff');
+                const res = await fetch(getApiUrl('/api/staff'));
                 const data = await res.json();
                 setStaff(data);
             } catch (err) {
@@ -128,56 +129,56 @@ function Staff() {
                 </div>
             </div>
             {selectedStaff && (
-                    <div className="details-modal-overlay" onClick={() => setSelectedStaff(null)}>
-                        <div className="details-modal-card" onClick={(e) => e.stopPropagation()}>
-                            <h3>Staff Details</h3>
+                <div className="details-modal-overlay" onClick={() => setSelectedStaff(null)}>
+                    <div className="details-modal-card" onClick={(e) => e.stopPropagation()}>
+                        <h3>Staff Details</h3>
 
-                            <div className="details-section">
-                                <h4>Personal Details</h4>
-                                <div className="details-grid">
-                                    <div className="details-row"><div className="details-label">First name</div><div className="details-value">{selectedStaff.name?.first || '-'}</div></div>
-                                    <div className="details-row"><div className="details-label">Middle name</div><div className="details-value">{selectedStaff.name?.middle || '-'}</div></div>
-                                    <div className="details-row"><div className="details-label">Last name</div><div className="details-value">{selectedStaff.name?.last || '-'}</div></div>
-                                    <div className="details-row"><div className="details-label">Date of birth</div><div className="details-value">{selectedStaff.date_of_birth || selectedStaff.dateOfBirth || '-'}</div></div>
-                                    <div className="details-row"><div className="details-label">Gender</div><div className="details-value">{selectedStaff.gender || '-'}</div></div>
-                                    <div className="details-row"><div className="details-label">Blood group</div><div className="details-value">{selectedStaff.blood_group || '-'}</div></div>
-                                </div>
-                            </div>
-
-                            <div className="details-section">
-                                <h4>Contact Details</h4>
-                                <div className="details-grid">
-                                    <div className="details-row"><div className="details-label">Primary phone</div><div className="details-value">{selectedStaff.contact_info?.phone || '-'}</div></div>
-                                    <div className="details-row"><div className="details-label">Alternate phone</div><div className="details-value">{selectedStaff.contact_info?.alternate_phone || '-'}</div></div>
-                                    <div className="details-row"><div className="details-label">Email</div><div className="details-value">{selectedStaff.contact_info?.email || '-'}</div></div>
-                                    <div className="details-row details-full"><div className="details-label">Address</div><div className="details-value">{(selectedStaff.address && JSON.stringify(selectedStaff.address)) || '-'}</div></div>
-                                </div>
-                            </div>
-
-                            <div className="details-section">
-                                <h4>Employment Details</h4>
-                                <div className="details-grid">
-                                    <div className="details-row"><div className="details-label">Role / Occupation</div><div className="details-value">{selectedStaff.role || selectedStaff.occupation || '-'}</div></div>
-                                    <div className="details-row"><div className="details-label">Department</div><div className="details-value">{selectedStaff.department || '-'}</div></div>
-                                    <div className="details-row"><div className="details-label">Designation</div><div className="details-value">{selectedStaff.designation || '-'}</div></div>
-                                    <div className="details-row"><div className="details-label">Shift</div><div className="details-value">{selectedStaff.shift || '-'}</div></div>
-                                    <div className="details-row"><div className="details-label">Joining date</div><div className="details-value">{selectedStaff.joiningDate || selectedStaff.joining_date || '-'}</div></div>
-                                </div>
-                            </div>
-
-                            <div className="details-section">
-                                <h4>Other</h4>
-                                <div className="details-grid">
-                                    <div className="details-row details-full"><div className="details-label">Notes</div><div className="details-value"><pre style={{whiteSpace:'pre-wrap',fontSize:12}}>{selectedStaff.notes || '{}'}</pre></div></div>
-                                </div>
-                            </div>
-
-                            <div className="details-actions">
-                                <button className="details-btn primary" onClick={() => { navigate('/staff/add', { state: { staff: selectedStaff } }); }}>Edit</button>
-                                <button className="details-btn ghost" onClick={() => setSelectedStaff(null)}>Close</button>
+                        <div className="details-section">
+                            <h4>Personal Details</h4>
+                            <div className="details-grid">
+                                <div className="details-row"><div className="details-label">First name</div><div className="details-value">{selectedStaff.name?.first || '-'}</div></div>
+                                <div className="details-row"><div className="details-label">Middle name</div><div className="details-value">{selectedStaff.name?.middle || '-'}</div></div>
+                                <div className="details-row"><div className="details-label">Last name</div><div className="details-value">{selectedStaff.name?.last || '-'}</div></div>
+                                <div className="details-row"><div className="details-label">Date of birth</div><div className="details-value">{selectedStaff.date_of_birth || selectedStaff.dateOfBirth || '-'}</div></div>
+                                <div className="details-row"><div className="details-label">Gender</div><div className="details-value">{selectedStaff.gender || '-'}</div></div>
+                                <div className="details-row"><div className="details-label">Blood group</div><div className="details-value">{selectedStaff.blood_group || '-'}</div></div>
                             </div>
                         </div>
+
+                        <div className="details-section">
+                            <h4>Contact Details</h4>
+                            <div className="details-grid">
+                                <div className="details-row"><div className="details-label">Primary phone</div><div className="details-value">{selectedStaff.contact_info?.phone || '-'}</div></div>
+                                <div className="details-row"><div className="details-label">Alternate phone</div><div className="details-value">{selectedStaff.contact_info?.alternate_phone || '-'}</div></div>
+                                <div className="details-row"><div className="details-label">Email</div><div className="details-value">{selectedStaff.contact_info?.email || '-'}</div></div>
+                                <div className="details-row details-full"><div className="details-label">Address</div><div className="details-value">{(selectedStaff.address && JSON.stringify(selectedStaff.address)) || '-'}</div></div>
+                            </div>
+                        </div>
+
+                        <div className="details-section">
+                            <h4>Employment Details</h4>
+                            <div className="details-grid">
+                                <div className="details-row"><div className="details-label">Role / Occupation</div><div className="details-value">{selectedStaff.role || selectedStaff.occupation || '-'}</div></div>
+                                <div className="details-row"><div className="details-label">Department</div><div className="details-value">{selectedStaff.department || '-'}</div></div>
+                                <div className="details-row"><div className="details-label">Designation</div><div className="details-value">{selectedStaff.designation || '-'}</div></div>
+                                <div className="details-row"><div className="details-label">Shift</div><div className="details-value">{selectedStaff.shift || '-'}</div></div>
+                                <div className="details-row"><div className="details-label">Joining date</div><div className="details-value">{selectedStaff.joiningDate || selectedStaff.joining_date || '-'}</div></div>
+                            </div>
+                        </div>
+
+                        <div className="details-section">
+                            <h4>Other</h4>
+                            <div className="details-grid">
+                                <div className="details-row details-full"><div className="details-label">Notes</div><div className="details-value"><pre style={{ whiteSpace: 'pre-wrap', fontSize: 12 }}>{selectedStaff.notes || '{}'}</pre></div></div>
+                            </div>
+                        </div>
+
+                        <div className="details-actions">
+                            <button className="details-btn primary" onClick={() => { navigate('/staff/add', { state: { staff: selectedStaff } }); }}>Edit</button>
+                            <button className="details-btn ghost" onClick={() => setSelectedStaff(null)}>Close</button>
+                        </div>
                     </div>
+                </div>
             )}
         </div>
     );

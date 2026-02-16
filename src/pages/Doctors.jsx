@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { getApiUrl } from '../api';
 import './Doctors.css';
 import './DetailsModal.css';
 
@@ -13,7 +14,7 @@ function Doctors() {
     useEffect(() => {
         const fetchDoctors = async () => {
             try {
-                const res = await fetch('/api/doctors');
+                const res = await fetch(getApiUrl('/api/doctors'));
                 const data = await res.json();
                 setDoctors(data);
             } catch (err) {
