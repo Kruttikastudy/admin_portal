@@ -14,6 +14,8 @@ import Appointments from './pages/Appointments';
 import Schedule from './pages/Schedule';
 import Messages from './pages/Messages';
 import Settings from './pages/Settings';
+import ViewDoctor from './pages/ViewDoctor';
+import ViewStaff from './pages/ViewStaff';
 import './App.css';
 
 function App() {
@@ -25,8 +27,10 @@ function App() {
                     <Route path="dashboard" element={<Dashboard />} />
                     <Route path="doctors" element={<Doctors />} />
                     <Route path="doctors/add" element={<AddDoctor />} />
+                    <Route path="doctors/view" element={<ViewDoctor />} />
                     {/* More specific path first so /staff/add matches AddStaff */}
                     <Route path="staff/add" element={<AddStaff />} />
+                    <Route path="staff/view" element={<ViewStaff />} />
                     <Route path="staff" element={<Staff />} />
                     <Route path="patients" element={<Patients />} />
                     <Route path="patients/view" element={<ViewPatient />} />

@@ -14,7 +14,7 @@
 .image-search-container {
     display: flex;
     align-items: center;
-    border: 1.5px solid #01579B;
+    border: 1.5px solid var(--primary-dark-blue);
     border-radius: 30px;
     background-color: white;
     width: 60%;
@@ -25,15 +25,38 @@
 }
 
 .specialization-select-box {
-    background-color: #3B96C2;
+    background-color: var(--primary-light-blue);
     color: white;
-    padding: 0 20px;
+    padding: 0;
     height: 100%;
     display: flex;
     align-items: center;
     font-size: 14px;
     cursor: pointer;
     border-radius: 30px 0 0 30px;
+}
+
+.specialization-select-box select {
+    background-color: transparent;
+    color: white;
+    border: none;
+    outline: none;
+    font-size: 14px;
+    cursor: pointer;
+    padding: 0 20px;
+    height: 100%;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='white' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 8px center;
+    padding-right: 28px;
+}
+
+.specialization-select-box select option {
+    background-color: white;
+    color: #333;
 }
 
 .image-search-input {
@@ -56,7 +79,7 @@
 }
 
 .image-add-doctor-action-btn {
-    background-color: #014E78;
+    background-color: var(--primary-blue);
     color: white;
     border: none;
     padding: 0 30px;
@@ -87,7 +110,7 @@
 }
 
 .image-total-count-pill {
-    background-color: #3B96C2;
+    background-color: var(--primary-light-blue);
     color: white;
     padding: 10px 25px;
     border-radius: 25px;
@@ -96,7 +119,7 @@
 
 .image-doctors-table-container {
     background-color: white;
-    border: 1px solid #7FBADD;
+    border: 1px solid var(--border-blue);
     overflow-x: auto;
     /* Enable scroll on mobile */
 }
@@ -109,7 +132,7 @@
 }
 
 .image-doctors-list-table thead tr {
-    background-color: #1E88E5;
+    background-color: var(--primary-blue);
     color: white;
 }
 
@@ -119,7 +142,7 @@
     text-align: left;
     font-weight: 400;
     font-size: 14px;
-    border-right: 1px solid #7FBADD;
+    border-right: 1px solid var(--border-blue);
 }
 
 .image-doctors-list-table th:last-child {
@@ -129,8 +152,8 @@
 .image-doctors-list-table td {
     padding: 12px 15px;
     /* Moderated row padding */
-    border-bottom: 1px solid #7FBADD;
-    border-right: 1px solid #7FBADD;
+    border-bottom: 1px solid var(--border-blue);
+    border-right: 1px solid var(--border-blue);
     font-size: 15px;
     /* Increased from 14px */
     height: 48px;
@@ -164,6 +187,35 @@
     height: 18px;
     background-color: white;
     border-radius: 50%;
+}
+
+.status-badge {
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 500;
+    text-transform: capitalize;
+    display: inline-block;
+    min-width: 80px;
+    text-align: center;
+    transition: all 0.2s ease;
+}
+
+.status-badge.active {
+    background-color: #E8F5E9;
+    color: #2E7D32;
+    border: 1px solid #A5D6A7;
+}
+
+.status-badge.inactive {
+    background-color: #FFEBEE;
+    color: #C62828;
+    border: 1px solid #FFCDD2;
+}
+
+.status-badge:hover {
+    opacity: 0.8;
+    transform: translateY(-1px);
 }
 
 @media (max-width: 768px) {

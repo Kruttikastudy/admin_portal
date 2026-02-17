@@ -4,12 +4,11 @@ import {
     LayoutDashboard,
     Stethoscope,
     Users,
-    UserRound,
-    CalendarCheck,
-    CalendarDays,
-    MessageSquare,
+    UserPlus,
+    ClipboardList,
     Settings,
-    LogOut
+    LogOut,
+    UserCircle
 } from 'lucide-react';
 import './Sidebar.css';
 
@@ -30,10 +29,8 @@ function Sidebar() {
         { to: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
         { to: '/doctors', label: 'Doctors', icon: Stethoscope },
         { to: '/staff', label: 'Staff', icon: Users },
-        { to: '/patients', label: 'Patients', icon: UserRound },
-        { to: '/appointments', label: 'Appointments', icon: CalendarCheck },
-        { to: '/schedule', label: 'Schedule', icon: CalendarDays },
-        { to: '/messages', label: 'Messages', icon: MessageSquare },
+        { to: '/patients', label: 'Patients', icon: UserPlus },
+        { to: '/appointments', label: 'Appointments', icon: ClipboardList },
         { to: '/settings', label: 'Settings', icon: Settings }
     ];
 
@@ -65,23 +62,34 @@ function Sidebar() {
 
                 <div className="sidebar-blue-section">
                     <nav className="image-sidebar-nav">
-                        {navItems.map((item) => (
-                            <NavLink
-                                key={item.to}
-                                to={item.to}
-                                className={({ isActive }) => isActive ? 'image-nav-item active' : 'image-nav-item'}
-                                onClick={() => setIsOpen(false)}
-                            >
-                                <item.icon className="nav-icon-lucide" size={20} />
-                                <span className="nav-text-label">{item.label}</span>
-                            </NavLink>
-                        ))}
+                        <div className="nav-group">
+                            {navItems.map((item) => (
+                                <NavLink
+                                    key={item.to}
+                                    to={item.to}
+                                    className={({ isActive }) => isActive ? 'image-nav-item active' : 'image-nav-item'}
+                                    onClick={() => setIsOpen(false)}
+                                >
+                                    <item.icon className="nav-icon-lucide" size={20} />
+                                    <span className="nav-text-label">{item.label}</span>
+                                </NavLink>
+                            ))}
+                        </div>
 
-                        <div className="sidebar-logout-container">
-                            <button className="image-logout-btn-link" onClick={handleLogout}>
-                                <LogOut size={20} style={{ marginRight: '12px' }} />
-                                Logout
-                            </button>
+                        <div className="sidebar-footer">
+                            <div className="user-profile-mock">
+                                <UserCircle size={40} className="user-avatar" />
+                                <div className="user-info">
+                                    <span className="user-name">Admin User</span>
+                                    <span className="user-role">Super Admin</span>
+                                </div>
+                            </div>
+                            <div className="sidebar-logout-container">
+                                <button className="image-logout-btn-link" onClick={handleLogout}>
+                                    <LogOut size={20} style={{ marginRight: '12px' }} />
+                                    Logout
+                                </button>
+                            </div>
                         </div>
                     </nav>
                 </div>

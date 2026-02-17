@@ -1278,7 +1278,7 @@ function AddPatient() {
                     <div className="header-icon-box white-box"></div>
                     <div className="header-icon-box white-box"></div>
                     <div className="header-icon-box profile-circle-box">
-                        <svg viewBox="0 0 100 100" fill="#7FBADD">
+                        <svg viewBox="0 0 100 100" fill="var(--border-blue)">
                             <circle cx="50" cy="50" r="45" />
                             <circle cx="50" cy="35" r="15" fill="white" />
                             <path d="M25,75 Q50,55 75,75" fill="white" />
@@ -1877,18 +1877,18 @@ function AddPatient() {
 
                     {activeTab === 'family' && (
                         <div className="image-tab-content fade-in">
-                            <h2 style={{ textAlign: 'center', color: '#1a5f7a', marginBottom: '20px' }}>Family History</h2>
+                            <h2 style={{ textAlign: 'center', color: 'var(--primary-dark-blue)', marginBottom: '20px' }}>Family History</h2>
 
                             <div className="image-family-history-container">
                                 <div className="image-history-card" style={{ marginBottom: '30px', boxShadow: '0 2px 8px rgba(0,0,0,0.1)', borderRadius: '12px', overflow: 'hidden' }}>
-                                    <div className="image-history-card-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', backgroundColor: '#1a5f7a', color: 'white', padding: '12px 20px' }}>
+                                    <div className="image-history-card-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', backgroundColor: 'var(--primary-dark-blue)', color: 'white', padding: '12px 20px' }}>
                                         <span style={{ fontWeight: '600' }}>Family Members Details:</span>
-                                        <button onClick={() => { handleAddFamilyMember(); setEditingFamilyMemberIndex(formData.familyMembers.length); }} style={{ background: '#7FBADD', border: 'none', color: 'white', width: '28px', height: '28px', borderRadius: '50%', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '20px' }}>+</button>
+                                        <button onClick={() => { handleAddFamilyMember(); setEditingFamilyMemberIndex(formData.familyMembers.length); }} style={{ background: 'var(--border-blue)', border: 'none', color: 'white', width: '28px', height: '28px', borderRadius: '50%', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '20px' }}>+</button>
                                     </div>
                                     <div className="image-history-card-body" style={{ padding: '25px', backgroundColor: 'white' }}>
                                         {/* Entry Form (Always Visible) */}
                                         <div className="image-edit-form" style={{ marginBottom: '30px', borderBottom: '2px solid #eee', paddingBottom: '30px' }}>
-                                            <div style={{ fontWeight: '600', color: '#1a5f7a', marginBottom: '15px' }}>{editingFamilyMemberIndex !== null ? 'Edit Family Member' : 'Add New Family Member'}</div>
+                                            <div style={{ fontWeight: '600', color: 'var(--primary-dark-blue)', marginBottom: '15px' }}>{editingFamilyMemberIndex !== null ? 'Edit Family Member' : 'Add New Family Member'}</div>
                                             <div style={{ border: '1px solid #eee', padding: '20px', borderRadius: '10px' }}>
                                                 <div className="image-field-row" style={{ display: 'flex', alignItems: 'center', gap: '20px', marginBottom: '15px' }}>
                                                     <label style={{ width: '120px', fontSize: '15px', fontWeight: '500' }}>Name</label>
@@ -1945,7 +1945,7 @@ function AddPatient() {
                                                             }
                                                             setFamilyMemberForm({ name: { first: '', middle: '', last: '' }, relationship: '', dateOfBirth: '', deceased: false, gender: '', medicalConditions: '' });
                                                         }}
-                                                        style={{ padding: '10px 30px', backgroundColor: '#1a5f7a', color: 'white', border: 'none', borderRadius: '6px', cursor: 'pointer', fontWeight: 'bold' }}
+                                                        style={{ padding: '10px 30px', backgroundColor: 'var(--primary-dark-blue)', color: 'white', border: 'none', borderRadius: '6px', cursor: 'pointer', fontWeight: 'bold' }}
                                                     >
                                                         {editingFamilyMemberIndex !== null ? 'Update Member' : 'Add Member'}
                                                     </button>
@@ -1964,10 +1964,10 @@ function AddPatient() {
                                             ) : (
                                                 formData.familyMembers.filter(m => m.name.first || m.relationship).map((member, index) => (
                                                     <div key={index} className="image-summary-box" style={{ padding: '15px', border: '1px solid #e0e0e0', borderRadius: '10px', backgroundColor: '#f9f9f9', position: 'relative' }}>
-                                                        <div style={{ fontWeight: '600', color: '#1a5f7a', marginBottom: '5px' }}>{member.relationship || 'Member'}</div>
+                                                        <div style={{ fontWeight: '600', color: 'var(--primary-dark-blue)', marginBottom: '5px' }}>{member.relationship || 'Member'}</div>
                                                         <div style={{ fontSize: '14px' }}>{member.name.first} {member.name.last}</div>
                                                         <div style={{ marginTop: '10px', display: 'flex', gap: '10px' }}>
-                                                            <button onClick={() => { setEditingFamilyMemberIndex(index); setFamilyMemberForm(member); }} style={{ padding: '5px 10px', fontSize: '12px', borderRadius: '4px', border: '1px solid #1a5f7a', background: 'none', color: '#1a5f7a', cursor: 'pointer' }}>Edit</button>
+                                                            <button onClick={() => { setEditingFamilyMemberIndex(index); setFamilyMemberForm(member); }} style={{ padding: '5px 10px', fontSize: '12px', borderRadius: '4px', border: '1px solid var(--primary-dark-blue)', background: 'none', color: 'var(--primary-dark-blue)', cursor: 'pointer' }}>Edit</button>
                                                             <button onClick={() => handleRemoveFamilyMember(index)} style={{ padding: '5px 10px', fontSize: '12px', borderRadius: '4px', border: '1px solid #d9534f', background: 'none', color: '#d9534f', cursor: 'pointer' }}>Remove</button>
                                                         </div>
                                                     </div>
@@ -1978,9 +1978,9 @@ function AddPatient() {
                                 </div>
 
                                 <div className="image-history-card" style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.1)', borderRadius: '12px', overflow: 'hidden' }}>
-                                    <div className="image-history-card-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', backgroundColor: '#1a5f7a', color: 'white', padding: '12px 20px' }}>
+                                    <div className="image-history-card-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', backgroundColor: 'var(--primary-dark-blue)', color: 'white', padding: '12px 20px' }}>
                                         <span style={{ fontWeight: '600' }}>Genetic Conditions:</span>
-                                        <button onClick={() => { handleAddGeneticCondition(); setEditingGeneticConditionIndex(formData.geneticConditions.length); }} style={{ background: '#7FBADD', border: 'none', color: 'white', width: '28px', height: '28px', borderRadius: '50%', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '20px' }}>+</button>
+                                        <button onClick={() => { handleAddGeneticCondition(); setEditingGeneticConditionIndex(formData.geneticConditions.length); }} style={{ background: 'var(--border-blue)', border: 'none', color: 'white', width: '28px', height: '28px', borderRadius: '50%', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '20px' }}>+</button>
                                     </div>
                                     <div className="image-history-card-body" style={{ padding: '25px', backgroundColor: 'white' }}>
                                         {/* Entry Form (Always Visible) */}
@@ -2017,7 +2017,7 @@ function AddPatient() {
                                                             }
                                                             setGeneticConditionForm({ conditionName: '', affectedMember: '', testingResults: '' });
                                                         }}
-                                                        style={{ padding: '10px 30px', backgroundColor: '#1a5f7a', color: 'white', border: 'none', borderRadius: '6px', cursor: 'pointer', fontWeight: 'bold' }}
+                                                        style={{ padding: '10px 30px', backgroundColor: 'var(--primary-dark-blue)', color: 'white', border: 'none', borderRadius: '6px', cursor: 'pointer', fontWeight: 'bold' }}
                                                     >
                                                         {editingGeneticConditionIndex !== null ? 'Update Condition' : 'Add Condition'}
                                                     </button>
@@ -2036,10 +2036,10 @@ function AddPatient() {
                                             ) : (
                                                 formData.geneticConditions.filter(gc => gc.conditionName || gc.affectedMember).map((gc, index) => (
                                                     <div key={index} className="image-summary-box" style={{ padding: '15px', border: '1px solid #e0e0e0', borderRadius: '10px', backgroundColor: '#f9f9f9', position: 'relative' }}>
-                                                        <div style={{ fontWeight: '600', color: '#1a5f7a', marginBottom: '5px' }}>{gc.conditionName || 'Condition'}</div>
+                                                        <div style={{ fontWeight: '600', color: 'var(--primary-dark-blue)', marginBottom: '5px' }}>{gc.conditionName || 'Condition'}</div>
                                                         <div style={{ fontSize: '14px' }}>Member: {gc.affectedMember}</div>
                                                         <div style={{ marginTop: '10px', display: 'flex', gap: '10px' }}>
-                                                            <button onClick={() => { setEditingGeneticConditionIndex(index); setGeneticConditionForm(gc); }} style={{ padding: '5px 10px', fontSize: '12px', borderRadius: '4px', border: '1px solid #1a5f7a', background: 'none', color: '#1a5f7a', cursor: 'pointer' }}>Edit</button>
+                                                            <button onClick={() => { setEditingGeneticConditionIndex(index); setGeneticConditionForm(gc); }} style={{ padding: '5px 10px', fontSize: '12px', borderRadius: '4px', border: '1px solid var(--primary-dark-blue)', background: 'none', color: 'var(--primary-dark-blue)', cursor: 'pointer' }}>Edit</button>
                                                             <button onClick={() => handleRemoveGeneticCondition(index)} style={{ padding: '5px 10px', fontSize: '12px', borderRadius: '4px', border: '1px solid #d9534f', background: 'none', color: '#d9534f', cursor: 'pointer' }}>Remove</button>
                                                         </div>
                                                     </div>

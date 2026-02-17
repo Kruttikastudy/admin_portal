@@ -1,22 +1,47 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { getApiUrl } from '../api';
 import './Dashboard.css';
 
 function Dashboard() {
-    const dashboardData = {
-        totalDoctors: 10,
-        totalStaff: 10,
-        totalPatients: 10,
-        activeDoctors: [
-            { name: 'Doctor Name', category: 'Category', status: 'Status' },
-            // Empty row to match image's empty state look
-        ],
-        activeStaff: [
-            { name: 'Staff Name', department: 'Department', status: 'Status' },
-        ],
-        pendingApprovals: [
-            { type: 'Type', submittedBy: 'Submitted by', date: 'Date', action: 'Action' },
-        ],
-    };
+    const navigate = useNavigate();
+    const [totalDoctors, setTotalDoctors] = useState(null);
+    const [staffCount, setStaffCount] = useState('...');
+    const [patientCount, setPatientCount] = useState('...');
+    const [activeDoctors, setActiveDoctors] = useState([]);
+    const [activeStaff, setActiveStaff] = useState([]);
+
+    useEffect(() => {
+        const fetchCounts = async () => {
+            try {
+                const [docRes, staffRes, patRes] = await Promise.all([
+                    fetch(getApiUrl('/api/doctors')),
+                    fetch(getApiUrl('/api/staff')),
+                    fetch(getApiUrl('/api/patients'))
+                ]);
+                const docs = await docRes.json();
+                const staffData = await staffRes.json();
+                const patients = await patRes.json();
+
+                setTotalDoctors(Array.isArray(docs) ? docs.length : 0);
+                setStaffCount(Array.isArray(staffData) ? staffData.length : 0);
+                setPatientCount(Array.isArray(patients) ? patients.length : 0);
+
+                // Sort by latest first before slicing
+                const sortedDocs = Array.isArray(docs) ? [...docs].sort((a, b) => (b._id || b.id || '').localeCompare(a._id || a.id || '')) : [];
+                const sortedStaff = Array.isArray(staffData) ? [...staffData].sort((a, b) => (b._id || b.id || '').localeCompare(a._id || a.id || '')) : [];
+
+                setActiveDoctors(sortedDocs.slice(0, 5));
+                setActiveStaff(sortedStaff.slice(0, 5));
+            } catch (err) {
+                console.error('Failed to fetch dashboard data', err);
+                setTotalDoctors(0);
+                setStaffCount(0);
+                setPatientCount(0);
+            }
+        };
+        fetchCounts();
+    }, []);
 
     return (
         <div className="image-dashboard-container">
@@ -25,7 +50,7 @@ function Dashboard() {
                     <div className="header-icon-box white-box"></div>
                     <div className="header-icon-box white-box"></div>
                     <div className="header-icon-box profile-circle-box">
-                        <svg viewBox="0 0 100 100" fill="#7FBADD">
+                        <svg viewBox="0 0 100 100" fill="var(--border-blue)">
                             <circle cx="50" cy="50" r="45" />
                             <circle cx="50" cy="35" r="15" fill="white" />
                             <path d="M25,75 Q50,55 75,75" fill="white" />
@@ -37,62 +62,70 @@ function Dashboard() {
             <div className="image-stats-row">
                 <div className="image-stat-box blue-stat">
                     <div className="image-stat-label">Total Doctors</div>
-                    <div className="image-stat-value">{dashboardData.totalDoctors}</div>
+                    <div className="image-stat-value">{totalDoctors !== null ? totalDoctors : '…'}</div>
                 </div>
                 <div className="image-stat-box blue-stat">
                     <div className="image-stat-label">Total Staff</div>
-                    <div className="image-stat-value">{dashboardData.totalStaff}</div>
+                    <div className="image-stat-value">{staffCount !== '...' ? staffCount : '…'}</div>
                 </div>
                 <div className="image-stat-box blue-stat">
                     <div className="image-stat-label">Total Patients</div>
-                    <div className="image-stat-value">{dashboardData.totalPatients}</div>
+                    <div className="image-stat-value">{patientCount !== '...' ? patientCount : '…'}</div>
                 </div>
             </div>
 
             <div className="image-dashboard-content-grid">
-                <div className="image-content-table-wrapper">
-                    <div className="image-table-header">Active Doctors</div>
+                <div className="image-content-table-wrapper active-doctors-card">
+                    <div className="image-table-header">
+                        <h3>Active Doctors</h3>
+                    </div>
                     <div className="image-table-body">
                         <table className="image-data-table">
                             <thead>
                                 <tr>
-                                    <th>Doctor Name</th>
-                                    <th>Category</th>
+                                    <th>Name</th>
+                                    <th>Specialty</th>
                                     <th>Status</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>
-                                        <div className="grey-circle-placeholder"></div>
-                                    </td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
+                                {activeDoctors.length > 0 ? activeDoctors.map((d, i) => (
+                                    <tr key={d._id || i} onClick={() => navigate('/doctors/view', { state: { doctor: d } })} className="clickable-row">
+                                        <td>{`${d.name?.first || ''} ${d.name?.last || ''}`.trim()}</td>
+                                        <td>{d.specialization || '-'}</td>
+                                        <td><span>{d.status || 'Active'}</span></td>
+                                    </tr>
+                                )) : (
+                                    <tr><td colSpan="3" style={{ textAlign: 'center' }}>No active doctors found</td></tr>
+                                )}
                             </tbody>
                         </table>
                     </div>
                 </div>
 
-                <div className="image-content-table-wrapper">
-                    <div className="image-table-header">Active Staff</div>
+                <div className="image-content-table-wrapper active-staff-card">
+                    <div className="image-table-header">
+                        <h3>Active Staff</h3>
+                    </div>
                     <div className="image-table-body">
                         <table className="image-data-table">
                             <thead>
                                 <tr>
-                                    <th>Staff Name</th>
+                                    <th>Name</th>
+                                    <th>Role</th>
                                     <th>Department</th>
-                                    <th>Status</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>
-                                        <div className="grey-circle-placeholder"></div>
-                                    </td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
+                                {activeStaff.length > 0 ? activeStaff.map((s, i) => (
+                                    <tr key={s._id || i} onClick={() => navigate('/staff/view', { state: { staff: s } })} className="clickable-row">
+                                        <td>{`${s.name?.first || ''} ${s.name?.last || ''}`.trim()}</td>
+                                        <td>{s.role || '-'}</td>
+                                        <td>{s.department || '-'}</td>
+                                    </tr>
+                                )) : (
+                                    <tr><td colSpan="3" style={{ textAlign: 'center' }}>No active staff found</td></tr>
+                                )}
                             </tbody>
                         </table>
                     </div>
@@ -112,10 +145,10 @@ function Dashboard() {
                             </thead>
                             <tbody>
                                 <tr className="empty-row-matching-image">
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
                                 </tr>
                             </tbody>
                         </table>

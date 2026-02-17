@@ -6,7 +6,7 @@
 
 .image-dashboard-header-strip {
     height: 50px;
-    background-color: #0288D1;
+    background-color: var(--primary-blue);
     display: flex;
     justify-content: flex-end;
     align-items: center;
@@ -53,8 +53,8 @@
     flex: 1;
     height: 100px;
     /* Reduced from 120px */
-    background-color: #3B96C2;
-    border: 1px solid #155A7A;
+    background-color: var(--primary-light-blue);
+    border: 1px solid var(--primary-dark-blue);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -95,13 +95,13 @@
 
 .image-content-table-wrapper {
     background-color: white;
-    border: 1px solid #7FBADD;
+    border: 1px solid var(--border-blue);
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
     overflow-x: auto;
 }
 
 .image-table-header {
-    background-color: #1E88E5;
+    background-color: var(--primary-blue);
     color: white;
     padding: 12px 15px;
     font-size: 18px;
@@ -124,6 +124,25 @@
     font-size: 16px;
     color: #333;
     border-bottom: 1px solid #B6D8E9;
+}
+
+.image-data-table thead th {
+    background: #F0F8FC !important;
+    /* Light blue/gray to differentiate from the section header */
+    color: var(--border-blue);
+    text-align: left;
+    padding: 12px 15px;
+    font-weight: 600;
+    border-bottom: 1px solid var(--border-blue);
+}
+
+.clickable-row {
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.clickable-row:hover {
+    background-color: rgba(79, 176, 210, 0.1);
 }
 
 .image-data-table td {
