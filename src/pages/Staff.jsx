@@ -6,8 +6,9 @@ import './Doctors.css'; // Reusing common styles from Doctors.css
 function Staff() {
     const navigate = useNavigate();
     const [staff, setStaff] = useState([]);
+    const [selectedIds, setSelectedIds] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
-    const [searchField, setSearchField] = useState('all');
+    const [roleFilter, setRoleFilter] = useState('all');
 
     useEffect(() => {
         const fetchStaff = async () => {
@@ -45,8 +46,16 @@ function Staff() {
     };
 
     const filteredStaff = staff.filter(s => {
-        if (!searchTerm.trim()) return true;
-        return getFieldValue(s, searchField).toLowerCase().includes(searchTerm.toLowerCase());
+        const name = `${s.name?.first || ''} ${s.name?.last || ''}`.trim();
+        const role = (s.role || '').toLowerCase();
+        const contact = s.contact_info?.phone || '';
+        const email = s.contact_info?.email || '';
+        const status = s.status || 'Active';
+        const allFields = `${name} ${role} ${contact} ${email} ${status}`;
+
+        const matchesSearch = !searchTerm.trim() || allFields.toLowerCase().includes(searchTerm.toLowerCase());
+        const matchesRole = roleFilter === 'all' || role === roleFilter.toLowerCase();
+        return matchesSearch && matchesRole;
     });
 
     const handleToggleStatus = async (s) => {
@@ -68,6 +77,20 @@ function Staff() {
         }
     };
 
+    const toggleSelectAll = () => {
+        if (selectedIds.length === filteredStaff.length) {
+            setSelectedIds([]);
+        } else {
+            setSelectedIds(filteredStaff.map(s => s._id || s.id));
+        }
+    };
+
+    const toggleSelect = (id) => {
+        setSelectedIds(prev =>
+            prev.includes(id) ? prev.filter(i => i !== id) : [...prev, id]
+        );
+    };
+
     return (
         <div className="image-doctors-page"> {/* Reusing class names for layout consistency */}
             <div className="image-dashboard-header-strip">
@@ -87,17 +110,26 @@ function Staff() {
             <div className="image-doctors-controls-row">
                 <div className="image-search-container">
                     <div className="specialization-select-box">
-                        <select value={searchField} onChange={(e) => setSearchField(e.target.value)}>
-                            <option value="all">All Fields</option>
-                            <option value="name">Name</option>
-                            <option value="role">Role</option>
-                            <option value="contact">Contact</option>
-                            <option value="email">Email</option>
-                            <option value="status">Status</option>
+                        <select value={roleFilter} onChange={(e) => setRoleFilter(e.target.value)}>
+                            <option value="all">All Roles</option>
+                            <option value="Nurse">Nurse</option>
+                            <option value="Receptionist">Receptionist</option>
+                            <option value="Pharmacist">Pharmacist</option>
+                            <option value="Lab Technician">Lab Technician</option>
+                            <option value="Admin">Admin</option>
+                            <option value="Doctor">Doctor</option>
+                            <option value="Business">Business</option>
+                            <option value="Other">Other</option>
                         </select>
                     </div>
-                    <input type="text" className="image-search-input" placeholder="Search..." value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
-                    <button className="image-search-btn">Search</button>
+                    <input
+                        type="text"
+                        className="image-search-input"
+                        placeholder="Search by name..."
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                    />
+                    <button className="image-search-btn" onClick={() => { }}>🔍</button>
                 </div>
                 <Link to="/staff/add" className="image-add-doctor-action-btn" style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', textDecoration: 'none', color: 'white' }}>
                     Add Staff
@@ -117,7 +149,13 @@ function Staff() {
                         <thead>
                             <tr>
                                 <th className="checkbox-col-placeholder">
-                                    <div className="white-circle-checkbox"></div>
+                                    <div
+                                        className={`radio-style-selection ${selectedIds.length === filteredStaff.length && filteredStaff.length > 0 ? 'selected' : ''}`}
+                                        onClick={toggleSelectAll}
+                                        title="Select All"
+                                    >
+                                        <div className="radio-inner-circle"></div>
+                                    </div>
                                 </th>
                                 <th>Staff Name</th>
                                 <th>Role</th>
@@ -138,9 +176,27 @@ function Staff() {
                                 return (
                                     <tr key={id}>
                                         <td>
-                                            <div className="grey-circle-placeholder-small"></div>
+                                            <div
+                                                className={`radio-style-selection ${selectedIds.includes(id) ? 'selected' : ''}`}
+                                                onClick={() => toggleSelect(id)}
+                                            >
+                                                <div className="radio-inner-circle"></div>
+                                            </div>
                                         </td>
-                                        <td>{name}</td>
+                                        <td>
+                                            <div className="name-avatar-cell">
+                                                <div className="image-table-avatar">
+                                                    {s.photo ? (
+                                                        <img src={s.photo} alt={name} />
+                                                    ) : (
+                                                        <div className="image-table-avatar-placeholder">
+                                                            {s.name?.first?.[0] || 'S'}
+                                                        </div>
+                                                    )}
+                                                </div>
+                                                <span>{name}</span>
+                                            </div>
+                                        </td>
                                         <td>{role}</td>
                                         <td>{contact}</td>
                                         <td>{email}</td>

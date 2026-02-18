@@ -27,12 +27,13 @@
 
 .login-content-box {
     background-color: white;
-    padding: 30px 80px;
-    /* Reduced vertical padding from 60px to 30px */
+    padding: 30px 50px;
+    /* Reduced horizontal padding */
     border-radius: 20px;
     box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
     width: 100%;
-    max-width: 650px;
+    max-width: 450px;
+    /* Reduced from 650px */
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -53,18 +54,17 @@
 }
 
 .login-logo-img {
-    width: 120px;
-    height: 120px;
+    width: 90px;
+    height: 90px;
     object-fit: contain;
 }
 
 .image-login-title {
-    font-size: 44px;
-    /* Slightly smaller font */
+    font-size: 32px;
+    /* Reduced from 44px */
     font-weight: 800;
     color: #000000;
     margin-bottom: 20px;
-    /* Reduced margin */
     text-align: center;
 }
 
@@ -83,19 +83,21 @@
 }
 
 .image-form-group label {
-    font-size: 18px;
+    font-size: 16px;
+    /* Reduced from 18px */
     font-weight: 500;
     color: #333;
 }
 
 .image-form-group input {
-    height: 60px;
-    /* Reduced vertical footprint */
+    height: 50px;
+    /* Reduced from 60px */
     background-color: #E0F7FA;
     border: 2px solid #000;
     border-radius: 8px;
     padding: 0 20px;
-    font-size: 20px;
+    font-size: 18px;
+    /* Reduced from 20px */
     transition: all 0.3s ease;
 }
 
@@ -116,15 +118,16 @@
     background-color: #0288D1;
     color: white;
     border: none;
-    padding: 15px 80px;
-    /* Larger button */
-    font-size: 22px;
-    /* Larger text */
+    padding: 12px 60px;
+    /* Reduced size */
+    font-size: 18px;
+    /* Reduced from 22px */
     font-weight: 700;
     cursor: pointer;
     border-radius: 8px;
     transition: all 0.3s ease;
-    min-width: 250px;
+    min-width: 200px;
+    /* Reduced from 250px */
 }
 
 .image-login-btn:hover {

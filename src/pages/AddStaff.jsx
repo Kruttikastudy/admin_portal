@@ -396,14 +396,6 @@ function AddStaff() {
                                     </div>
 
 
-                                    <div className="image-field">
-                                        <label>License no.</label>
-                                        <input type="text" className="field-border" name="licenseNo" value={formData.licenseNo} onChange={handleInputChange} />
-                                    </div>
-                                    <div className="image-field">
-                                        <label>License Expiry Date</label>
-                                        <input type="date" className="field-border" name="licenseExpiryDate" value={formData.licenseExpiryDate} onChange={handleInputChange} />
-                                    </div>
 
                                     <div className="image-field-row-cols">
                                         <div className="image-field">
@@ -694,28 +686,50 @@ function AddStaff() {
                             <div className="image-role-dept-grid">
                                 <div className="image-field-row-cols">
                                     <div className="image-field">
-                                        <label>Position:</label>
-                                        <input type="text" className="field-border" name="position" value={formData.position} onChange={handleInputChange} />
-                                    </div>
-                                    <div className="image-field">
-                                        <label>Department:</label>
-                                        <input type="text" className="field-border" name="department" value={formData.department} onChange={handleInputChange} />
-                                    </div>
-                                </div>
-                                <div className="image-field-row-cols">
-                                    <div className="image-field">
-                                        <label>Specialization</label>
-                                        <select className="image-select-replacement-v" name="specialization" value={formData.specialization} onChange={handleInputChange}>
+                                        <label>Role:</label>
+                                        <select className="image-select-replacement" name="position" value={formData.position} onChange={handleInputChange}>
                                             <option value="">Select</option>
-                                            <option value="General">General</option>
-                                            <option value="Pediatrics">Pediatrics</option>
-                                            <option value="Surgery">Surgery</option>
-                                            <option value="Emergency">Emergency</option>
+                                            <option value="Staff Nurse">Staff Nurse</option>
+                                            <option value="Head Nurse">Head Nurse</option>
+                                            <option value="Lab Technician">Lab Technician</option>
+                                            <option value="OT Technician">OT Technician</option>
+                                            <option value="Pharmacist">Pharmacist</option>
+                                            <option value="Physiotherapist">Physiotherapist</option>
+                                            <option value="Hospital Administrator">Hospital Administrator</option>
+                                            <option value="HR Manager">HR Manager</option>
+                                            <option value="Receptionist">Receptionist</option>
+                                            <option value="Front Desk Executive">Front Desk Executive</option>
+                                            <option value="Billing Executive">Billing Executive</option>
+                                            <option value="Medical Records Officer">Medical Records Officer</option>
+                                            <option value="Ward Boy">Ward Boy</option>
+                                            <option value="OT Assistant">OT Assistant</option>
+                                            <option value="Housekeeping Staff">Housekeeping Staff</option>
+                                            <option value="Security Guard">Security Guard</option>
+                                            <option value="Ambulance Driver">Ambulance Driver</option>
                                         </select>
                                     </div>
                                     <div className="image-field">
-                                        <label>Employment Type:</label>
-                                        <input type="text" className="field-border" name="employmentType" value={formData.employmentType} onChange={handleInputChange} />
+                                        <label>Department:</label>
+                                        <select className="image-select-replacement" name="department" value={formData.department} onChange={handleInputChange}>
+                                            <option value="">Select</option>
+                                            <option value="General Medicine Department">General Medicine Department</option>
+                                            <option value="Cardiology Department">Cardiology Department</option>
+                                            <option value="Neurology Department">Neurology Department</option>
+                                            <option value="Orthopedics Department">Orthopedics Department</option>
+                                            <option value="Pediatrics Department">Pediatrics Department</option>
+                                            <option value="Dermatology Department">Dermatology Department</option>
+                                            <option value="Gynecology Department">Gynecology Department</option>
+                                            <option value="ENT Department">ENT Department</option>
+                                            <option value="Eye Department">Eye Department</option>
+                                            <option value="Psychiatry Department">Psychiatry Department</option>
+                                            <option value="Emergency Department">Emergency Department</option>
+                                            <option value="Radiology Department">Radiology Department</option>
+                                            <option value="Surgery Department">Surgery Department</option>
+                                            <option value="ICU">ICU</option>
+                                            <option value="OPD">OPD</option>
+                                            <option value="IPD">IPD</option>
+                                            <option value="Laboratory">Laboratory</option>
+                                        </select>
                                     </div>
                                 </div>
                                 <div className="image-field-row-cols">
@@ -743,14 +757,30 @@ function AddStaff() {
                                         <label>Employee Type</label>
                                         <select className="image-select-replacement-v" name="employeeType" value={formData.employeeType} onChange={handleInputChange}>
                                             <option value="">Select</option>
-                                            <option value="Full-time">Full-time</option>
-                                            <option value="Part-time">Part-time</option>
+                                            <option value="Full-Time">Full-Time</option>
+                                            <option value="Part-Time">Part-Time</option>
+                                            <option value="On-Call">On-Call</option>
                                             <option value="Contract">Contract</option>
+                                            <option value="Intern">Intern</option>
+                                            <option value="Trainee">Trainee</option>
+                                            <option value="Permanent">Permanent</option>
+                                            <option value="Temporary">Temporary</option>
                                         </select>
                                     </div>
                                     <div className="image-field">
                                         <label>Shift Type</label>
-                                        <input type="text" className="field-border" name="shiftType" value={formData.shiftType} onChange={handleInputChange} />
+                                        <select className="image-select-replacement" name="shiftType" value={formData.shiftType} onChange={handleInputChange}>
+                                            <option value="">Select</option>
+                                            <option value="Fixed Shift">Fixed Shift</option>
+                                            <option value="Rotational Shift">Rotational Shift</option>
+                                            <option value="Morning Shift">Morning Shift</option>
+                                            <option value="Afternoon Shift">Afternoon Shift</option>
+                                            <option value="Evening Shift">Evening Shift</option>
+                                            <option value="Night Shift">Night Shift</option>
+                                            <option value="General Shift">General Shift</option>
+                                            <option value="Emergency Duty">Emergency Duty</option>
+                                            <option value="Weekend Duty">Weekend Duty</option>
+                                        </select>
                                     </div>
                                 </div>
                                 <div className="image-field-row timing-row-match">

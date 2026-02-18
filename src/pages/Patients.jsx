@@ -6,6 +6,7 @@ import './Doctors.css'; // Reusing common styles
 function Patients() {
     const navigate = useNavigate();
     const [patients, setPatients] = useState([]);
+    const [selectedIds, setSelectedIds] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
     const [searchField, setSearchField] = useState('all');
 
@@ -26,6 +27,20 @@ function Patients() {
         } catch (err) {
             console.error('Error toggling status', err);
         }
+    };
+
+    const toggleSelectAll = () => {
+        if (selectedIds.length === filteredPatients.length) {
+            setSelectedIds([]);
+        } else {
+            setSelectedIds(filteredPatients.map(p => p._id || p.id));
+        }
+    };
+
+    const toggleSelect = (id) => {
+        setSelectedIds(prev =>
+            prev.includes(id) ? prev.filter(i => i !== id) : [...prev, id]
+        );
     };
 
     useEffect(() => {
@@ -53,13 +68,15 @@ function Patients() {
         const contact = p.contact_info?.mobile?.number || p.contact_info?.phone || '';
         const email = p.contact_info?.email || '';
         const status = p.status || 'Active';
+        const pid = p._id || p.id || '';
         switch (field) {
+            case 'id': return pid;
             case 'name': return name;
             case 'role': return role;
             case 'contact': return contact;
             case 'email': return email;
             case 'status': return status;
-            default: return `${name} ${role} ${contact} ${email} ${status}`;
+            default: return `${pid} ${name} ${role} ${contact} ${email} ${status}`;
         }
     };
 
@@ -89,6 +106,7 @@ function Patients() {
                     <div className="specialization-select-box">
                         <select value={searchField} onChange={(e) => setSearchField(e.target.value)}>
                             <option value="all">All Fields</option>
+                            <option value="id">Patient ID</option>
                             <option value="name">Name</option>
                             <option value="role">Role</option>
                             <option value="contact">Contact</option>
@@ -96,8 +114,14 @@ function Patients() {
                             <option value="status">Status</option>
                         </select>
                     </div>
-                    <input type="text" className="image-search-input" placeholder="Search..." value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
-                    <button className="image-search-btn">Search</button>
+                    <input
+                        type="text"
+                        className="image-search-input"
+                        placeholder={searchField === 'all' ? 'Search all fields...' : `Search by ${searchField}...`}
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                    />
+                    <button className="image-search-btn" onClick={() => { }}>🔍</button>
                 </div>
                 <button className="image-add-doctor-action-btn" onClick={() => navigate('/patients/add')}>
                     Add Patient
@@ -117,8 +141,15 @@ function Patients() {
                         <thead>
                             <tr>
                                 <th className="checkbox-col-placeholder">
-                                    <div className="white-circle-checkbox"></div>
+                                    <div
+                                        className={`radio-style-selection ${selectedIds.length === filteredPatients.length && filteredPatients.length > 0 ? 'selected' : ''}`}
+                                        onClick={toggleSelectAll}
+                                        title="Select All"
+                                    >
+                                        <div className="radio-inner-circle"></div>
+                                    </div>
                                 </th>
+                                <th>Patient ID</th>
                                 <th>Patient Name</th>
                                 <th>Role</th>
                                 <th>Contact no.</th>
@@ -138,9 +169,28 @@ function Patients() {
                                 return (
                                     <tr key={id}>
                                         <td>
-                                            <div className="grey-circle-placeholder-small"></div>
+                                            <div
+                                                className={`radio-style-selection ${selectedIds.includes(id) ? 'selected' : ''}`}
+                                                onClick={() => toggleSelect(id)}
+                                            >
+                                                <div className="radio-inner-circle"></div>
+                                            </div>
                                         </td>
-                                        <td>{name}</td>
+                                        <td>{id}</td>
+                                        <td>
+                                            <div className="name-avatar-cell">
+                                                <div className="image-table-avatar">
+                                                    {p.photo ? (
+                                                        <img src={p.photo} alt={name} />
+                                                    ) : (
+                                                        <div className="image-table-avatar-placeholder">
+                                                            {p.name?.first?.[0] || 'P'}
+                                                        </div>
+                                                    )}
+                                                </div>
+                                                <span>{name}</span>
+                                            </div>
+                                        </td>
                                         <td>{role}</td>
                                         <td>{contact}</td>
                                         <td>{email}</td>
@@ -176,6 +226,7 @@ function Patients() {
                             })}
                             {[...Array(8)].map((_, i) => (
                                 <tr key={`empty-${i}`}>
+                                    <td></td>
                                     <td></td>
                                     <td></td>
                                     <td></td>

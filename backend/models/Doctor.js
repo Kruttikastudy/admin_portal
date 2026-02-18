@@ -67,7 +67,6 @@ const doctorSchema = new mongoose.Schema({
     reasonForLeaving: { type: String },
     position: { type: String },
     department: { type: String },
-    employment_type: { type: String },
     joining_date: { type: String },
     shift_type: { type: String },
     shift_start: { type: String },

@@ -1,0 +1,203 @@
+.image-appointments-page {
+    background-color: #FDFDFD;
+    min-height: 100vh;
+}
+
+.image-appointments-controls-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    gap: 15px;
+}
+
+.filter-item-date-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.filter-item-date-row label {
+    font-size: 15px;
+    font-weight: 500;
+    color: #333;
+}
+
+.image-date-filter-input {
+    height: 40px;
+    border: 1.5px solid var(--primary-dark-blue);
+    border-radius: 8px;
+    padding: 0 10px;
+    font-size: 14px;
+    background-color: white;
+}
+
+/* Modal Styling to match AddStaff/AddDoctor forms */
+.appointment-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.appointment-modal-content {
+    background: white;
+    width: 800px;
+    max-height: 90vh;
+    overflow-y: auto;
+    border-radius: 12px;
+    padding: 40px;
+    position: relative;
+    box-shadow: var(--shadow-lg);
+}
+
+.appointment-form-header {
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 30px;
+    color: var(--primary-dark-blue);
+    text-align: center;
+}
+
+.form-section-divider {
+    display: flex;
+    justify-content: center;
+    margin: 30px 0;
+    position: relative;
+}
+
+.form-section-divider::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 1.5px;
+    background-color: var(--border-blue);
+    z-index: 1;
+}
+
+.form-section-label {
+    background-color: #F0F7FA;
+    border: 1.5px solid var(--primary-dark-blue);
+    border-radius: 25px;
+    padding: 6px 35px;
+    font-weight: 600;
+    font-size: 15px;
+    color: var(--primary-dark-blue);
+    position: relative;
+    z-index: 2;
+}
+
+.form-row {
+    display: flex;
+    gap: 25px;
+    margin-bottom: 25px;
+}
+
+.form-field {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    flex: 1;
+}
+
+.form-field label {
+    font-size: 14px;
+    font-weight: 600;
+    color: #444;
+}
+
+.form-field input,
+.form-field select {
+    width: 100%;
+    padding: 10px 15px;
+    border: 1.5px solid var(--border-blue);
+    border-radius: 8px;
+    font-size: 14px;
+    transition: all 0.2s ease;
+}
+
+.form-field input:focus,
+.form-field select:focus {
+    border-color: var(--primary-blue);
+    box-shadow: 0 0 0 3px rgba(27, 122, 159, 0.1);
+    outline: none;
+}
+
+.form-footer {
+    display: flex;
+    justify-content: center;
+    margin-top: 40px;
+}
+
+.btn-schedule {
+    background-color: var(--primary-blue);
+    color: white;
+    padding: 12px 60px;
+    border: none;
+    border-radius: 25px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-schedule:hover {
+    background-color: var(--primary-dark-blue);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-md);
+}
+
+.close-modal {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: #f0f0f0;
+    border: none;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    font-size: 20px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+
+.close-modal:hover {
+    background-color: #e0e0e0;
+    color: #C62828;
+}
+
+/* Status badge overrides for appointments if needed */
+.status-badge.scheduled {
+    background-color: #E3F2FD;
+    color: #1565C0;
+    border: 1px solid #BBDEFB;
+}
+
+.status-badge.confirmed {
+    background-color: #E8F5E9;
+    color: #2E7D32;
+    border: 1px solid #A5D6A7;
+}
+
+.status-badge.completed {
+    background-color: #F3E5F5;
+    color: #7B1FA2;
+    border: 1px solid #E1BEE7;
+}
+
+.status-badge.cancelled {
+    background-color: #FFEBEE;
+    color: #C62828;
+    border: 1px solid #FFCDD2;
+}

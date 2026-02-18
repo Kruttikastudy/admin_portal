@@ -50,7 +50,6 @@ const staffSchema = new mongoose.Schema({
     previousEmployer: { type: String },
     reasonForLeaving: { type: String },
     position: { type: String },
-    employment_type: { type: String },
     joining_date: { type: String },
     shift_type: { type: String },
     shift_start: { type: String },

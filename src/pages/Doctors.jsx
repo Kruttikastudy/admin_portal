@@ -6,8 +6,9 @@ import './Doctors.css';
 function Doctors() {
     const navigate = useNavigate();
     const [searchTerm, setSearchTerm] = useState('');
-    const [searchField, setSearchField] = useState('all');
+    const [specialityFilter, setSpecialityFilter] = useState('all');
     const [doctors, setDoctors] = useState([]);
+    const [selectedIds, setSelectedIds] = useState([]);
 
     useEffect(() => {
         const fetchDoctors = async () => {
@@ -36,7 +37,7 @@ function Doctors() {
         const status = doc.status || 'Active';
         switch (field) {
             case 'name': return name;
-            case 'category': return category;
+            case 'speciality': return category;
             case 'contact': return contact;
             case 'email': return email;
             case 'status': return status;
@@ -45,8 +46,16 @@ function Doctors() {
     };
 
     const filteredDoctors = doctors.filter(doc => {
-        if (!searchTerm.trim()) return true;
-        return getFieldValue(doc, searchField).toLowerCase().includes(searchTerm.toLowerCase());
+        const name = `${doc.name?.first || ''} ${doc.name?.last || ''}`.trim();
+        const speciality = (doc.specialization || '').toLowerCase();
+        const contact = doc.contact_info?.phone || '';
+        const email = doc.contact_info?.email || '';
+        const status = doc.status || 'Active';
+        const allFields = `${name} ${speciality} ${contact} ${email} ${status}`;
+
+        const matchesSearch = !searchTerm.trim() || allFields.toLowerCase().includes(searchTerm.toLowerCase());
+        const matchesSpeciality = specialityFilter === 'all' || speciality === specialityFilter.toLowerCase();
+        return matchesSearch && matchesSpeciality;
     });
 
     const handleToggleStatus = async (doc) => {
@@ -68,6 +77,20 @@ function Doctors() {
         }
     };
 
+    const toggleSelectAll = () => {
+        if (selectedIds.length === filteredDoctors.length) {
+            setSelectedIds([]);
+        } else {
+            setSelectedIds(filteredDoctors.map(d => d._id || d.id));
+        }
+    };
+
+    const toggleSelect = (id) => {
+        setSelectedIds(prev =>
+            prev.includes(id) ? prev.filter(i => i !== id) : [...prev, id]
+        );
+    };
+
     return (
         <div className="image-doctors-page">
             <div className="image-dashboard-header-strip">
@@ -87,17 +110,38 @@ function Doctors() {
             <div className="image-doctors-controls-row">
                 <div className="image-search-container">
                     <div className="specialization-select-box">
-                        <select value={searchField} onChange={(e) => setSearchField(e.target.value)}>
-                            <option value="all">All Fields</option>
-                            <option value="name">Name</option>
-                            <option value="category">Category</option>
-                            <option value="contact">Contact</option>
-                            <option value="email">Email</option>
-                            <option value="status">Status</option>
+                        <select value={specialityFilter} onChange={(e) => setSpecialityFilter(e.target.value)}>
+                            <option value="all">All Specialities</option>
+                            <option value="General Medicine">General Medicine</option>
+                            <option value="Cardiology">Cardiology</option>
+                            <option value="Neurology">Neurology</option>
+                            <option value="Orthopedics">Orthopedics</option>
+                            <option value="Pediatrics">Pediatrics</option>
+                            <option value="Dermatology">Dermatology</option>
+                            <option value="Gynecology & Obstetrics">Gynecology &amp; Obstetrics</option>
+                            <option value="ENT (Ear, Nose, Throat)">ENT</option>
+                            <option value="Ophthalmology">Ophthalmology</option>
+                            <option value="Psychiatry">Psychiatry</option>
+                            <option value="Gastroenterology">Gastroenterology</option>
+                            <option value="Urology">Urology</option>
+                            <option value="Nephrology">Nephrology</option>
+                            <option value="Pulmonology">Pulmonology</option>
+                            <option value="Endocrinology">Endocrinology</option>
+                            <option value="Oncology">Oncology</option>
+                            <option value="Radiology">Radiology</option>
+                            <option value="Anesthesiology">Anesthesiology</option>
+                            <option value="Emergency Medicine">Emergency Medicine</option>
+                            <option value="Pathology">Pathology</option>
                         </select>
                     </div>
-                    <input type="text" className="image-search-input" placeholder="Search..." value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
-                    <button className="image-search-btn">Search</button>
+                    <input
+                        type="text"
+                        className="image-search-input"
+                        placeholder="Search by name..."
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                    />
+                    <button className="image-search-btn" onClick={() => { }}>🔍</button>
                 </div>
                 <button className="image-add-doctor-action-btn" onClick={() => navigate('/doctors/add')}>
                     Add Doctor
@@ -117,10 +161,16 @@ function Doctors() {
                         <thead>
                             <tr>
                                 <th className="checkbox-col-placeholder">
-                                    <div className="white-circle-checkbox"></div>
+                                    <div
+                                        className={`radio-style-selection ${selectedIds.length === filteredDoctors.length && filteredDoctors.length > 0 ? 'selected' : ''}`}
+                                        onClick={toggleSelectAll}
+                                        title="Select All"
+                                    >
+                                        <div className="radio-inner-circle"></div>
+                                    </div>
                                 </th>
                                 <th>Doctors Name</th>
-                                <th>Category</th>
+                                <th>Speciality</th>
                                 <th>Contact no.</th>
                                 <th>Email</th>
                                 <th>Status</th>
@@ -138,9 +188,27 @@ function Doctors() {
                                 return (
                                     <tr key={id}>
                                         <td>
-                                            <div className="grey-circle-placeholder-small"></div>
+                                            <div
+                                                className={`radio-style-selection ${selectedIds.includes(id) ? 'selected' : ''}`}
+                                                onClick={() => toggleSelect(id)}
+                                            >
+                                                <div className="radio-inner-circle"></div>
+                                            </div>
                                         </td>
-                                        <td>{name}</td>
+                                        <td>
+                                            <div className="name-avatar-cell">
+                                                <div className="image-table-avatar">
+                                                    {doc.photo ? (
+                                                        <img src={doc.photo} alt={name} />
+                                                    ) : (
+                                                        <div className="image-table-avatar-placeholder">
+                                                            {doc.name?.first?.[0] || 'D'}
+                                                        </div>
+                                                    )}
+                                                </div>
+                                                <span>{name}</span>
+                                            </div>
+                                        </td>
                                         <td>{category}</td>
                                         <td>{contact}</td>
                                         <td>{email}</td>

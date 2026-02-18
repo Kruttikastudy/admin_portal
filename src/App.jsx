@@ -11,6 +11,8 @@ import Patients from './pages/Patients';
 import AddPatient from './pages/AddPatient';
 import ViewPatient from './pages/ViewPatient';
 import Appointments from './pages/Appointments';
+import AddAppointment from './pages/AddAppointment';
+import ViewAppointment from './pages/ViewAppointment';
 import Schedule from './pages/Schedule';
 import Messages from './pages/Messages';
 import Settings from './pages/Settings';
@@ -36,6 +38,8 @@ function App() {
                     <Route path="patients/view" element={<ViewPatient />} />
                     <Route path="patients/add" element={<AddPatient />} />
                     <Route path="appointments" element={<Appointments />} />
+                    <Route path="appointments/add" element={<AddAppointment />} />
+                    <Route path="appointments/view" element={<ViewAppointment />} />
                     <Route path="schedule" element={<Schedule />} />
                     <Route path="messages" element={<Messages />} />
                     <Route path="settings" element={<Settings />} />

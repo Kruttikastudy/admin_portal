@@ -1288,7 +1288,7 @@ function AddPatient() {
             </div>
 
             <div className="image-add-doctor-container">
-                <h1 className="image-page-main-title">Add New Patient</h1>
+                <h1 className="image-page-main-title">{patientId ? 'Edit Patient' : 'Add New Patient'}</h1>
 
                 <div className="image-form-tabs-bar">
                     {tabs.map(tab => (
@@ -1306,6 +1306,12 @@ function AddPatient() {
                     {activeTab === 'personal' && (
                         <div className="image-tab-content fade-in">
                             <div className="image-form-section-header">Demographics</div>
+                            {patientId && (
+                                <div className="image-field-row" style={{ marginBottom: '20px' }}>
+                                    <label>Patient ID</label>
+                                    <input type="text" value={patientId} readOnly className="field-border" style={{ backgroundColor: '#f5f5f5', cursor: 'not-allowed' }} />
+                                </div>
+                            )}
 
                             <div className="image-form-layout-split">
                                 <div className="image-form-fields-left">

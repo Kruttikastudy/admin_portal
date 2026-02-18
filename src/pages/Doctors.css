@@ -160,6 +160,42 @@
     /* Moderated thickness */
 }
 
+.name-avatar-cell {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.image-table-avatar {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    object-fit: cover;
+    background-color: #f0f0f0;
+    border: 1px solid var(--border-blue);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.image-table-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.image-table-avatar-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--primary-light-blue);
+    color: white;
+    font-size: 14px;
+}
+
 .image-doctors-list-table td:last-child {
     border-right: none;
 }
@@ -187,6 +223,50 @@
     height: 18px;
     background-color: white;
     border-radius: 50%;
+}
+
+.radio-style-selection {
+    width: 20px;
+    height: 20px;
+    border: 2px solid white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    margin: 0 auto;
+    transition: all 0.2s ease;
+}
+
+.radio-style-selection.selected {
+    border-color: #FFEB3B;
+    /* Yellow border for selection matching theme maybe? or stay white */
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.radio-inner-circle {
+    width: 10px;
+    height: 10px;
+    background-color: transparent;
+    border-radius: 50%;
+    transition: all 0.2s ease;
+}
+
+.radio-style-selection.selected .radio-inner-circle {
+    background-color: #FFEB3B;
+}
+
+/* For table body selection circle */
+.image-doctors-list-table td .radio-style-selection {
+    border-color: var(--primary-blue);
+}
+
+.image-doctors-list-table td .radio-style-selection.selected {
+    background-color: rgba(27, 122, 159, 0.1);
+}
+
+.image-doctors-list-table td .radio-style-selection.selected .radio-inner-circle {
+    background-color: var(--primary-blue);
 }
 
 .status-badge {
