@@ -45,19 +45,6 @@ function Dashboard() {
 
     return (
         <div className="image-dashboard-container">
-            <div className="image-dashboard-header-strip">
-                <div className="header-strip-right">
-                    <div className="header-icon-box white-box"></div>
-                    <div className="header-icon-box white-box"></div>
-                    <div className="header-icon-box profile-circle-box">
-                        <svg viewBox="0 0 100 100" fill="var(--border-blue)">
-                            <circle cx="50" cy="50" r="45" />
-                            <circle cx="50" cy="35" r="15" fill="white" />
-                            <path d="M25,75 Q50,55 75,75" fill="white" />
-                        </svg>
-                    </div>
-                </div>
-            </div>
 
             <div className="image-stats-row">
                 <div className="image-stat-box blue-stat">

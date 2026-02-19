@@ -18,6 +18,8 @@ import Messages from './pages/Messages';
 import Settings from './pages/Settings';
 import ViewDoctor from './pages/ViewDoctor';
 import ViewStaff from './pages/ViewStaff';
+import Profile from './pages/Profile';
+import AuditLogs from './pages/AuditLogs';
 import './App.css';
 
 function App() {
@@ -43,6 +45,8 @@ function App() {
                     <Route path="schedule" element={<Schedule />} />
                     <Route path="messages" element={<Messages />} />
                     <Route path="settings" element={<Settings />} />
+                    <Route path="profile" element={<Profile />} />
+                    <Route path="audit-logs" element={<AuditLogs />} />
                 </Route>
                 <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>

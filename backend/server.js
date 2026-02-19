@@ -7,6 +7,9 @@ import doctorRoutes from './routes/doctorRoutes.js';
 import staffRoutes from './routes/staffRoutes.js';
 import patientRoutes from './routes/patientRoutes.js';
 import appointmentRoutes from './routes/appointmentRoutes.js';
+import auditLogRoutes from './routes/auditLogRoutes.js';
+import exportRoutes from './routes/exportRoutes.js';
+import adminProfileRoutes from './routes/adminProfileRoutes.js';
 
 dotenv.config();
 
@@ -25,6 +28,9 @@ app.use('/api/doctors', doctorRoutes);
 app.use('/api/staff', staffRoutes);
 app.use('/api/patients', patientRoutes);
 app.use('/api/appointments', appointmentRoutes);
+app.use('/api/audit-logs', auditLogRoutes);
+app.use('/api/export', exportRoutes);
+app.use('/api/admin-profile', adminProfileRoutes);
 
 app.get('/', (req, res) => {
     res.send('API is running...');

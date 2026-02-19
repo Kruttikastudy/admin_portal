@@ -1,6 +1,7 @@
 import React from 'react';
 import { Outlet } from 'react-router-dom';
 import Sidebar from './Sidebar';
+import TopBar from './TopBar';
 import './Layout.css';
 
 function Layout() {
@@ -8,6 +9,7 @@ function Layout() {
         <div className="layout-container">
             <Sidebar />
             <div className="main-content">
+                <TopBar />
                 <Outlet />
             </div>
         </div>
