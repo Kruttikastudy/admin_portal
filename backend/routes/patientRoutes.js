@@ -57,15 +57,53 @@ router.put('/:id', async (req, res) => {
         const patient = await Patient.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true });
         if (!patient) return res.status(404).json({ message: 'Patient not found' });
 
-        // Build changes array
+        // Helper to check deep equality ignoring _id and treating null/'' as same
+        const normalize = (val) => {
+            if (val === null || val === undefined) return undefined;
+            if (typeof val === 'string') {
+                const trimmed = val.trim();
+                return trimmed === '' ? undefined : trimmed;
+            }
+            if (Array.isArray(val)) {
+                // Filter out empty items from array? 
+                // Or just map. Let's map first, then maybe filter undefined?
+                // Mongoose arrays might be weird. Let's stick to map for now.
+                const mapped = val.map(normalize).filter(v => v !== undefined);
+                return mapped.length > 0 ? mapped : undefined;
+            }
+            if (typeof val === 'object') {
+                const clean = {};
+                let hasKeys = false;
+                Object.keys(val).sort().forEach(k => {
+                    if (k === '_id' || k === 'id') return; // Ignore IDs
+                    const v = normalize(val[k]);
+                    if (v !== undefined) {
+                        clean[k] = v;
+                        hasKeys = true;
+                    }
+                });
+                return hasKeys ? clean : undefined;
+            }
+            return val;
+        };
+
+        const isEffectiveChange = (v1, v2) => {
+            const n1 = normalize(v1);
+            const n2 = normalize(v2);
+            return JSON.stringify(n1) !== JSON.stringify(n2);
+        };
+
         const changes = [];
-        const skipFields = ['_id', '__v', 'updatedAt', 'createdAt', 'img', 'photo', 'insurance_card_image'];
+        const skipFields = ['_id', '__v', 'updatedAt', 'createdAt', 'img', 'photo', 'insurance_card_image', 'consent'];
         for (const key of Object.keys(req.body)) {
             if (skipFields.includes(key)) continue;
-            const oldVal = JSON.stringify(oldDoc[key] || '');
-            const newVal = JSON.stringify(req.body[key] || '');
-            if (oldVal !== newVal) {
-                changes.push({ field: key, oldValue: oldDoc[key], newValue: req.body[key] });
+
+            // Check if Mongoose doc has this key (if not, it might be new, or just not in oldDoc)
+            const oldVal = oldDoc[key];
+            const newVal = req.body[key];
+
+            if (isEffectiveChange(oldVal, newVal)) {
+                changes.push({ field: key, oldValue: oldVal, newValue: newVal });
             }
         }
 

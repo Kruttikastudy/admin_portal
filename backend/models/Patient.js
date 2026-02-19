@@ -323,17 +323,17 @@ const patientSchema = new Schema({
     tobacco_smoking: {
       current_status: {
         type: String,
-        enum: ['Current Smoker', 'Former Smoker', 'Never Smoked']
+        enum: ['', 'Current Smoker', 'Former Smoker', 'Never Smoked']
       },
       average_daily_consumption: { type: Number },
       duration_of_use: { type: String },
       duration_unit: {
         type: String,
-        enum: ['days', 'weeks', 'months', 'years']
+        enum: ['', 'days', 'weeks', 'months', 'years']
       },
       quit_date: {
         type: String,
-        match: /^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$/
+        match: /(?:^$|^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$)/
       },
       notes: { type: String }
     },
@@ -341,17 +341,17 @@ const patientSchema = new Schema({
     tobacco_consumption: {
       current_status: {
         type: String,
-        enum: ['Never used', 'Current user', 'Former user', 'Social user']
+        enum: ['', 'Never used', 'Current user', 'Former user', 'Social user']
       },
       average_daily_consumption: { type: Number },
       duration_of_use: { type: String },
       duration_unit: {
         type: String,
-        enum: ['days', 'weeks', 'months', 'years']
+        enum: ['', 'days', 'weeks', 'months', 'years']
       },
       quit_date: {
         type: String,
-        match: /^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$/
+        match: /(?:^$|^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$)/
       },
       notes: { type: String }
     },
@@ -380,12 +380,12 @@ const patientSchema = new Schema({
     financial_resources: {
       income_level: {
         type: String,
-        enum: ['High', 'Moderate', 'Low']
+        enum: ['', 'High', 'Moderate', 'Low']
       },
       employment_status: {
         type: String,
         enum: [
-          'Employed Full-time', 'Employed Part-time', 'Employed',
+          '', 'Employed Full-time', 'Employed Part-time', 'Employed',
           'Unemployed', 'Self-employed', 'Student', 'Retired',
           'Homemaker', 'Disabled', 'Other'
         ]
@@ -393,7 +393,7 @@ const patientSchema = new Schema({
       financial_support: {
         type: String,
         enum: [
-          'None', 'Family', 'Government', 'Disability Benefits',
+          '', 'None', 'Family', 'Government', 'Disability Benefits',
           'Retirement Benefits', 'Child Support', 'Alimony', 'Other'
         ]
       },
@@ -404,7 +404,7 @@ const patientSchema = new Schema({
       highest_level_of_education: {
         type: String,
         enum: [
-          'Uneducated', 'Below 10th', '10th Passed', '12th Passed',
+          '', 'Uneducated', 'Below 10th', '10th Passed', '12th Passed',
           'BMS', 'High School', 'Diploma', "Bachelor's", "Master's",
           'PhD', 'Other'
         ]
@@ -418,11 +418,11 @@ const patientSchema = new Schema({
       duration: { type: Number },
       duration_unit: {
         type: String,
-        enum: ['min', 'seconds', 'hr']
+        enum: ['', 'min', 'seconds', 'hr']
       },
       consistency: {
         type: String,
-        enum: ['Regular', 'Occasional', 'Irregular', 'Never']
+        enum: ['', 'Regular', 'Occasional', 'Irregular', 'Never']
       },
       notes: { type: String }
     },
@@ -430,7 +430,7 @@ const patientSchema = new Schema({
     stress: {
       perceived_stress_level: {
         type: String,
-        enum: ['None', 'Low', 'Moderate', 'High', 'Very High']
+        enum: ['', 'None', 'Low', 'Moderate', 'High', 'Very High']
       },
       major_stressors: { type: String },
       coping_mechanisms: { type: String },
@@ -441,14 +441,14 @@ const patientSchema = new Schema({
       isolation_status: {
         type: String,
         enum: [
-          'Not Isolated', 'Self-Isolating', 'Quarantined',
+          '', 'Not Isolated', 'Self-Isolating', 'Quarantined',
           'Socially Isolated', 'Other', 'Low', 'Moderate', 'High'
         ]
       },
       social_support: {
         type: String,
         enum: [
-          'Strong', 'Moderate', 'Limited', 'None', 'Unknown',
+          '', 'Strong', 'Moderate', 'Limited', 'None', 'Unknown',
           'Supportive family', 'Friends', 'Community groups',
           'Minimal Support', 'Other'
         ]
@@ -468,7 +468,7 @@ const patientSchema = new Schema({
       },
       date_of_last_exposure: {
         type: String,
-        match: /^(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])-\d{4}$/
+        match: /(?:^$|^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])-\d{4}$|^(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])-\d{4}$)/
       },
       support_or_intervention_received: { type: String },
       notes: { type: String }
@@ -478,7 +478,7 @@ const patientSchema = new Schema({
       gender_identity: {
         type: String,
         enum: [
-          'Male', 'Female', 'Non-binary', 'Transgender',
+          '', 'Male', 'Female', 'Non-binary', 'Transgender',
           'Other', 'Prefer not to say'
         ]
       },
@@ -489,7 +489,7 @@ const patientSchema = new Schema({
       sexual_orientation: {
         type: String,
         enum: [
-          'Straight', 'Heterosexual', 'Homosexual', 'Bisexual',
+          '', 'Straight', 'Heterosexual', 'Homosexual', 'Bisexual',
           'Pansexual', 'Asexual', 'Queer', 'Questioning',
           'Other', 'Prefer not to say'
         ]
@@ -501,7 +501,7 @@ const patientSchema = new Schema({
       dietary_preferences: { type: String },
       supplement_usage: {
         type: String,
-        enum: ['Yes', 'Occasionally', 'No']
+        enum: ['', 'Yes', 'Occasionally', 'No']
       },
       notes: { type: String }
     }
