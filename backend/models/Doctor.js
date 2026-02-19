@@ -33,11 +33,7 @@ const doctorSchema = new mongoose.Schema({
         enum: ['Active', 'On Leave', 'Inactive'],
         default: 'Active'
     },
-    schedule: [{
-        day: { type: String, enum: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'] },
-        start_time: { type: String },
-        end_time: { type: String }
-    }],
+
     img: {
         file_id: { type: mongoose.Schema.Types.ObjectId },
         data: { type: String } // store base64 or URL

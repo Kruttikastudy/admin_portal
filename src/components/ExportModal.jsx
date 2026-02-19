@@ -9,34 +9,219 @@ function ExportModal({ onClose }) {
     const [numberOfRecords, setNumberOfRecords] = useState('10');
     const [exportColumnHeader, setExportColumnHeader] = useState(true);
     const [orderBy, setOrderBy] = useState('');
-    const [showPreview, setShowPreview] = useState(false);
+    const [loading, setLoading] = useState(false);
+
+    // Dynamic Columns Configuration (Database Keys)
+    const columnsConfig = useMemo(() => ({
+        Patients: [
+            'name', 'date_of_birth', 'gender', 'marital_status', 'nationality', 'category',
+            'blood_group', 'address', 'occupation', 'aadhaar', 'pan',
+            'contact_info', 'insurance', 'allergies', 'family_history', 'social_history'
+        ],
+        Doctors: [
+            'name', 'specialization', 'qualifications', 'experience_years', 'contact_info',
+            'status', 'shift_start', 'shift_end', 'date_of_birth', 'license_no', 'license_expiry',
+            'department', 'designation', 'joining_date', 'shift_type', 'insurance'
+        ],
+        Staff: [
+            'name', 'role', 'department', 'staff_id', 'contact_info', 'status',
+            'shift', 'date_of_birth', 'designation', 'joining_date', 'insurance'
+        ],
+        Appointments: [
+            'patient_name', 'patient_id', 'age', 'contact_information', 'appointment_date',
+            'appointment_time', 'appointment_type', 'reason_for_appointment', 'urgency',
+            'doctor', 'comments'
+        ]
+    }), []);
+
+    const [columns, setColumns] = useState({});
+
+    // Reset columns when entity changes
+    useEffect(() => {
+        const initialCols = {};
+        columnsConfig[entity].forEach(col => {
+            initialCols[col] = true; // Default select all
+        });
+        setColumns(initialCols);
+    }, [entity, columnsConfig]);
+
+    const toggleColumn = (col) => {
+        setColumns(prev => ({ ...prev, [col]: !prev[col] }));
+    };
+
+    const selectAll = () => {
+        const newCols = {};
+        columnsConfig[entity].forEach(c => newCols[c] = true);
+        setColumns(newCols);
+    };
+
+    const deselectAll = () => {
+        const newCols = {};
+        columnsConfig[entity].forEach(c => newCols[c] = false);
+        setColumns(newCols);
+    };
+
     const [previewData, setPreviewData] = useState([]);
+    const [showPreview, setShowPreview] = useState(false);
+
+    const fetchData = async (limit = null) => {
+        let endpoint = '';
+        switch (entity) {
+            case 'Patients': endpoint = '/api/patients'; break;
+            case 'Doctors': endpoint = '/api/doctors'; break;
+            case 'Staff': endpoint = '/api/staff'; break;
+            case 'Appointments': endpoint = '/api/appointments'; break;
+            default: endpoint = '/api/patients';
+        }
+
+        const res = await fetch(getApiUrl(endpoint));
+        if (!res.ok) throw new Error('Failed to fetch data');
+
+        let data = await res.json();
+        if (data.data && Array.isArray(data.data)) data = data.data;
+        if (!Array.isArray(data)) data = [];
+
+        // Apply limit
+        if (limit) {
+            const numLimit = parseInt(limit, 10);
+            if (!isNaN(numLimit) && numLimit > 0 && numLimit < data.length) {
+                data = data.slice(0, numLimit);
+            }
+        } else if (!exportAll) {
+            const numLimit = parseInt(numberOfRecords, 10);
+            if (!isNaN(numLimit) && numLimit > 0 && numLimit < data.length) {
+                data = data.slice(0, numLimit);
+            }
+        }
+        return data;
+    };
+
+    const getColumnValue = (row, col, type) => {
+        const val = (path) => {
+            return path.split('.').reduce((acc, part) => acc && acc[part], row) || '';
+        };
+
+        // Common formatters
+        const formatDate = (dateStr) => {
+            if (!dateStr) return '';
+            const d = new Date(dateStr);
+            return isNaN(d.getTime()) ? dateStr : d.toLocaleDateString();
+        };
+
+        const formatName = (nameObj) => {
+            if (!nameObj) return '';
+            return `${nameObj.first || ''} ${nameObj.middle || ''} ${nameObj.last || ''}`.replace(/\s+/g, ' ').trim();
+        };
+
+        const formatAddress = (addr) => {
+            if (!addr) return '';
+            if (typeof addr === 'string') return addr;
+            return `${addr.street || ''}, ${addr.city || ''}, ${addr.state || ''} ${addr.zip_code || ''}`.replace(/^, /, '').trim();
+        };
+
+        // Entity specific mappings
+        switch (col) {
+            case 'Name':
+            case 'Patient Name':
+                return formatName(row.name) || row.patient_name || '';
+            case 'Date of Birth': return formatDate(row.date_of_birth);
+            case 'Joining Date': return formatDate(row.joining_date);
+            case 'Date': return formatDate(row.date);
+            case 'Mobile':
+            case 'Phone':
+            case 'Contact':
+                return row.mobile || row.contact_info?.phone || row.phone || '';
+            case 'Email': return row.email || row.contact_info?.email || '';
+            case 'Address': return formatAddress(row.address);
+            case 'Schedule':
+                return Array.isArray(row.availability)
+                    ? row.availability.map(s => `${s.day}: ${s.startTime}-${s.endTime}`).join('; ')
+                    : '';
+            case 'Status': return row.status || ''; // Often just a string
+            case 'Age': return row.age || '';
+            case 'Gender': return row.gender || '';
+            case 'Specialization': return row.specialization || '';
+            case 'Role': return row.role || '';
+            case 'Department': return row.department || '';
+            case 'Doctor': return row.doctor_id?.name ? formatName(row.doctor_id.name) : (row.doctor_name || '');
+            case 'Patient ID': return row.patient_id?._id || row.patient_id || '';
+            // Default fallback: Try to find a property with the same name (lowercase, properties)
+            default:
+                // Try converting "Policy Number" -> "policy_number"
+                const key = col.toLowerCase().replace(/ /g, '_');
+                return row[key] !== undefined ? row[key] : '';
+        }
+    };
+
+    const processData = (rawData) => {
+        if (!rawData || !Array.isArray(rawData)) return [];
+        return rawData.map(row => {
+            const processedRow = {};
+            columnsConfig[entity].forEach(col => {
+                if (columns[col]) {
+                    processedRow[col] = getColumnValue(row, col, entity);
+                }
+            });
+            return processedRow;
+        });
+    };
 
     const handlePreview = async () => {
         setLoading(true);
         try {
-            let endpoint = '';
-            switch (entity) {
-                case 'Patients': endpoint = '/api/patients'; break;
-                case 'Doctors': endpoint = '/api/doctors'; break;
-                case 'Staff': endpoint = '/api/staff'; break;
-                case 'Appointments': endpoint = '/api/appointments'; break;
-                default: endpoint = '/api/patients';
-            }
-
-            const res = await fetch(getApiUrl(endpoint));
-            if (!res.ok) throw new Error('Failed to fetch data');
-
-            let data = await res.json();
-            if (data.data && Array.isArray(data.data)) data = data.data;
-            if (!Array.isArray(data)) data = [];
-
-            // Preview top 5 records
-            setPreviewData(data.slice(0, 5));
+            const rawData = await fetchData(5);
+            const data = processData(rawData);
+            setPreviewData(data);
             setShowPreview(true);
         } catch (err) {
             console.error(err);
             alert('Preview failed: ' + err.message);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const handleExport = async () => {
+        setLoading(true);
+        try {
+            let filename = entity.toLowerCase();
+            const rawData = await fetchData();
+
+            if (rawData.length === 0) {
+                alert('No data to export');
+                return;
+            }
+
+            const data = processData(rawData);
+
+            if (data.length === 0) {
+                alert('No columns selected or data processing failed.');
+                return;
+            }
+
+            // Simplified CSV generation
+            const headers = Object.keys(data[0]);
+            const csvContent = [
+                headers.join(','),
+                ...data.map(row => headers.map(fieldName => {
+                    let val = row[fieldName];
+                    if (typeof val === 'object') val = JSON.stringify(val).replace(/"/g, '""'); // Escape quotes
+                    if (val === undefined || val === null) val = '';
+                    return `"${val}"`;
+                }).join(','))
+            ].join('\n');
+
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.setAttribute('href', url);
+            link.setAttribute('download', `${filename}.${exportFormat.toLowerCase()}`);
+            link.click();
+
+            onClose();
+        } catch (err) {
+            console.error(err);
+            alert('Export failed: ' + err.message);
         } finally {
             setLoading(false);
         }
@@ -123,51 +308,43 @@ function ExportModal({ onClose }) {
                         </button>
                     </div>
                 </div>
-            </div>
 
-            {/* Preview Modal Overlay */}
-            {showPreview && (
-                <div className="preview-modal-overlay" onClick={() => setShowPreview(false)}>
-                    <div className="preview-modal" onClick={e => e.stopPropagation()}>
-                        <div className="preview-header">
-                            <h3>Data Preview (First 5 records)</h3>
-                            <button className="close-preview" onClick={() => setShowPreview(false)}>&times;</button>
-                        </div>
-                        <div className="preview-body">
-                            <table className="preview-table">
-                                <thead>
-                                    <tr>
-                                        {Object.keys(columns).filter(c => columns[c]).map(col => (
-                                            <th key={col}>{col}</th>
-                                        ))}
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {previewData.map((row, idx) => (
-                                        <tr key={idx}>
-                                            {Object.keys(columns).filter(c => columns[c]).map(col => {
-                                                // Very basic mapping for demo - normally you'd map "Name" -> "name.first" etc.
-                                                // For now, we just dump what we have or show '?' if not direct match
-                                                // Ideally, we reuse the mapping logic from handleExport but that's complex to inline
-                                                // let's try to match by lowercase key as a heuristic
-                                                const keyCandidate = col.toLowerCase().replace(/ /g, '_');
-                                                let val = row[keyCandidate] || row[col.toLowerCase()] || row[col] || JSON.stringify(row).substring(0, 10) + '...';
-
-                                                // Refined rendering for known structures
-                                                if (col === 'Name' && row.name) val = `${row.name.first} ${row.name.last}`;
-                                                if (col === 'Email' && row.contact_info) val = row.contact_info.email;
-
-                                                if (typeof val === 'object') val = '[Object]';
-                                                return <td key={col}>{val}</td>;
-                                            })}
+                {/* Preview Overlay */}
+                {showPreview && (
+                    <div className="preview-overlay">
+                        <div className="preview-content">
+                            <div className="preview-header">
+                                <h3>Data Preview (First 5 records)</h3>
+                                <button onClick={() => setShowPreview(false)}>&times;</button>
+                            </div>
+                            <div className="preview-table-wrapper">
+                                <table className="preview-table">
+                                    <thead>
+                                        <tr>
+                                            {previewData.length > 0 && Object.keys(previewData[0]).map(key => (
+                                                <th key={key}>{key}</th>
+                                            ))}
                                         </tr>
-                                    ))}
-                                </tbody>
-                            </table>
+                                    </thead>
+                                    <tbody>
+                                        {previewData.map((row, i) => (
+                                            <tr key={i}>
+                                                {Object.values(row).map((val, j) => (
+                                                    <td key={j} title={typeof val === 'object' ? JSON.stringify(val, null, 2) : String(val)}>
+                                                        <div className="preview-cell-content">
+                                                            {typeof val === 'object' ? JSON.stringify(val) : String(val)}
+                                                        </div>
+                                                    </td>
+                                                ))}
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
-                </div>
-            )}
+                )}
+            </div>
         </div>
     );
 }
